@@ -111,15 +111,40 @@ class RestaurantTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            restaurantNames.remove(at: indexPath.row)
-            restaurantLocations.remove(at: indexPath.row)
-            restaurantTypes.remove(at: indexPath.row)
-            restaurantImages.remove(at: indexPath.row)
-            restaurantIsVisited.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            deleteRow(at: indexPath)
+            
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
+    }
+    
+    func deleteRow(at indexPath: IndexPath) {
+        // Delete the row from the data source
+        restaurantNames.remove(at: indexPath.row)
+        restaurantLocations.remove(at: indexPath.row)
+        restaurantTypes.remove(at: indexPath.row)
+        restaurantImages.remove(at: indexPath.row)
+        restaurantIsVisited.remove(at: indexPath.row)
+        tableView.deleteRows(at: [indexPath], with: .fade)
+
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        // share
+        let shareAction = UITableViewRowAction(style: .default, title: "Share", handler: {
+            (action, indexPath) -> Void in
+    
+            let activityController = UIActivityViewController(activityItems: ["Just checking in at " + self.restaurantNames[indexPath.row]], applicationActivities: nil)
+            self.present(activityController, animated: true, completion: nil)
+        })
+        
+        // delete
+        let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete", handler: {
+            (action, indexPath) in
+            self.deleteRow(at: indexPath)
+        })
+        
+        return [shareAction, deleteAction]
     }
     
 
