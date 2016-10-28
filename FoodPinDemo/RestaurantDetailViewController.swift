@@ -13,20 +13,17 @@ class RestaurantDetailViewController: UIViewController {
     @IBOutlet weak var locationLabel: UILabel!
     @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var restaurantImageView: UIImageView!
-    var restaurantName: String = ""
-    var restaurantType: String = ""
-    var restaurantLocation: String = ""
-    var restaurantImage: String = ""
+    var restaurant: Restaurant!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        nameLabel.text = restaurantName
-        typeLabel.text = restaurantType
-        locationLabel.text = restaurantLocation
-        restaurantImageView.image = UIImage(named: restaurantImage)
+        nameLabel.text = restaurant.name
+        typeLabel.text = restaurant.type
+        locationLabel.text = restaurant.location
+        restaurantImageView.image = UIImage(named: restaurant.image)
     }
 
     override func didReceiveMemoryWarning() {

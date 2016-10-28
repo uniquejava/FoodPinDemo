@@ -15,6 +15,7 @@
 		2E67FFA71DC35CCF002D3730 /* RestaurantTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E67FFA61DC35CCF002D3730 /* RestaurantTableViewCell.swift */; };
 		2EB86CC71DC3AD42001A323A /* RestaurantDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB86CC61DC3AD42001A323A /* RestaurantDetailViewController.swift */; };
 		2EB86CC91DC3BC9A001A323A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2EB86CC81DC3BC9A001A323A /* README.md */; };
+		2EB86CCB1DC3C116001A323A /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB86CCA1DC3C116001A323A /* Restaurant.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		2E67FFA61DC35CCF002D3730 /* RestaurantTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewCell.swift; sourceTree = "<group>"; };
 		2EB86CC61DC3AD42001A323A /* RestaurantDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewController.swift; sourceTree = "<group>"; };
 		2EB86CC81DC3BC9A001A323A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		2EB86CCA1DC3C116001A323A /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				2E67FFA61DC35CCF002D3730 /* RestaurantTableViewCell.swift */,
 				2EB86CC61DC3AD42001A323A /* RestaurantDetailViewController.swift */,
 				2EB86CC81DC3BC9A001A323A /* README.md */,
+				2EB86CCA1DC3C116001A323A /* Restaurant.swift */,
 			);
 			path = FoodPinDemo;
 			sourceTree = "<group>";
@@ -148,6 +151,7 @@
 			files = (
 				2E67FFA51DC34F98002D3730 /* RestaurantTableViewController.swift in Sources */,
 				2E67FFA71DC35CCF002D3730 /* RestaurantTableViewCell.swift in Sources */,
+				2EB86CCB1DC3C116001A323A /* Restaurant.swift in Sources */,
 				2EB86CC91DC3BC9A001A323A /* README.md in Sources */,
 				2EB86CC71DC3AD42001A323A /* RestaurantDetailViewController.swift in Sources */,
 				2E67FF931DC34ED2002D3730 /* AppDelegate.swift in Sources */,
