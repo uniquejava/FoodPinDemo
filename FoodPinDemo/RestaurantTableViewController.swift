@@ -18,6 +18,8 @@ class RestaurantTableViewController: UITableViewController {
     var restaurantTypes = ["Coffee & Tea Shop", "Cafe", "Tea House", "Austrian / Causual Drink", "French", "Bakery", "Bakery", "Chocolate", "Cafe", "American / Seafood", "American", "American", "Breakfast & Brunch", "Coffee & Tea", "Coffee & Tea", "Latin American", "Spanish", "Spanish", "Spanish", "British", "Thai"]
     
     
+    var restaurantIsVisited = Array(repeating: false, count: 21)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -56,6 +58,8 @@ class RestaurantTableViewController: UITableViewController {
         cell.thumbnailImageView.image = UIImage(named: restaurantImages[indexPath.row])
         //cell.thumbnailImageView.layer.cornerRadius = 30.0
         //cell.thumbnailImageView.clipsToBounds = true
+        cell.accessoryType = restaurantIsVisited[indexPath.row] ? .checkmark : .none
+        
         
         return cell
     }
@@ -73,11 +77,14 @@ class RestaurantTableViewController: UITableViewController {
         optionMenu.addAction(callAction)
         
         // check-in
-        let checkInAction = UIAlertAction(title: "Check in", style: .default, handler: {
+        let isChecked = restaurantIsVisited[indexPath.row]
+        let title = isChecked ? "Undo Check in" : "Check in"
+        let checkInAction = UIAlertAction(title: title, style: .default, handler: {
             (action: UIAlertAction) -> Void in
             
             let cell = tableView.cellForRow(at: indexPath)
-            cell?.accessoryType = .checkmark
+            cell?.accessoryType = isChecked ? .none : .checkmark
+            self.restaurantIsVisited[indexPath.row] = !isChecked
         })
         optionMenu.addAction(checkInAction)
         
