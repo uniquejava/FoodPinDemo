@@ -9,7 +9,13 @@
 import UIKit
 
 class RestaurantDetailViewController: UIViewController {
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var locationLabel: UILabel!
+    @IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var restaurantImageView: UIImageView!
+    var restaurantName: String = ""
+    var restaurantType: String = ""
+    var restaurantLocation: String = ""
     var restaurantImage: String = ""
     
     
@@ -17,6 +23,9 @@ class RestaurantDetailViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        nameLabel.text = restaurantName
+        typeLabel.text = restaurantType
+        locationLabel.text = restaurantLocation
         restaurantImageView.image = UIImage(named: restaurantImage)
     }
 
