@@ -79,7 +79,7 @@
                                     <outlet property="nameLabel" destination="MSz-F5-S78" id="sxR-8X-8yh"/>
                                     <outlet property="thumbnailImageView" destination="2lK-dB-OOx" id="3vy-UG-sXQ"/>
                                     <outlet property="typeLabel" destination="F62-fH-t8C" id="N5a-Ct-UHi"/>
-                                    <segue destination="Byc-SU-SBv" kind="show" id="Yte-AY-kTu"/>
+                                    <segue destination="Byc-SU-SBv" kind="show" identifier="showRestaurantDetail" id="Yte-AY-kTu"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -94,10 +94,10 @@
             </objects>
             <point key="canvasLocation" x="1122" y="133"/>
         </scene>
-        <!--View Controller-->
+        <!--Restaurant Detail View Controller-->
         <scene sceneID="O45-AQ-sI0">
             <objects>
-                <viewController id="Byc-SU-SBv" sceneMemberID="viewController">
+                <viewController id="Byc-SU-SBv" customClass="RestaurantDetailViewController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hqh-11-lSe"/>
                         <viewControllerLayoutGuide type="bottom" id="ien-NK-IQH"/>
@@ -105,12 +105,26 @@
                     <view key="view" contentMode="scaleToFill" id="ozN-Nv-JN4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="LX0-58-6rC">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="LX0-58-6rC" secondAttribute="trailing" id="0ni-Cl-Uuw"/>
+                            <constraint firstItem="LX0-58-6rC" firstAttribute="top" secondItem="hqh-11-lSe" secondAttribute="bottom" id="4aJ-sl-gt3"/>
+                            <constraint firstItem="ien-NK-IQH" firstAttribute="top" secondItem="LX0-58-6rC" secondAttribute="bottom" id="a9S-uW-oTn"/>
+                            <constraint firstItem="LX0-58-6rC" firstAttribute="leading" secondItem="ozN-Nv-JN4" secondAttribute="leading" id="cfb-fg-lm7"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="restaurantImageView" destination="LX0-58-6rC" id="gJp-Gp-0Fn"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gz3-fE-00y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1962" y="133"/>
+            <point key="canvasLocation" x="1960.8" y="132.68365817091455"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="bMF-QQ-nch">
