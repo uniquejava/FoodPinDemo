@@ -142,14 +142,17 @@ class RestaurantTableViewController: UITableViewController {
             }
             
         })
+        shareAction.backgroundColor = UIColor(red: 48.0/255, green: 173.0/255, blue: 99.0/255, alpha: 1.0)
+        
         
         // delete
         let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete", handler: {
             (action, indexPath) in
             self.deleteRow(at: indexPath)
         })
+        deleteAction.backgroundColor = UIColor(white: 202.0/255, alpha: 1.0)
         
-        return [shareAction, deleteAction]
+        return [deleteAction, shareAction]
     }
     
 
