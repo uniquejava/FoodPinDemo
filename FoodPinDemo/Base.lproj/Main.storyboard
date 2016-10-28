@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="aCq-aI-Ozg">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="80" id="aCq-aI-Ozg" customClass="RestaurantTableViewCell" customModule="FoodPinDemo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aCq-aI-Ozg" id="NDn-Bs-Oqg">
@@ -69,6 +69,12 @@
                                         <constraint firstItem="HrJ-Jo-h2W" firstAttribute="leading" secondItem="NDn-Bs-Oqg" secondAttribute="leadingMargin" constant="6" id="nta-BW-CVO"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="locationLabel" destination="3d4-AU-BOI" id="EE0-fH-1Ie"/>
+                                    <outlet property="nameLabel" destination="MSz-F5-S78" id="sxR-8X-8yh"/>
+                                    <outlet property="thumbnailImageView" destination="2lK-dB-OOx" id="3vy-UG-sXQ"/>
+                                    <outlet property="typeLabel" destination="F62-fH-t8C" id="N5a-Ct-UHi"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
