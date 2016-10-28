@@ -64,6 +64,7 @@ class RestaurantTableViewController: UITableViewController {
         return cell
     }
     
+    /*
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let optionMenu = UIAlertController(title: nil, message: "What do you want do do?", preferredStyle: .actionSheet)
         
@@ -96,7 +97,7 @@ class RestaurantTableViewController: UITableViewController {
         
         tableView.deselectRow(at: indexPath, animated: false)
         
-    }
+    }*/
 
     /*
     // Override to support conditional editing of the table view.
@@ -108,7 +109,7 @@ class RestaurantTableViewController: UITableViewController {
 
     
     // Override to support editing the table view.
-    
+    /*
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
@@ -117,7 +118,7 @@ class RestaurantTableViewController: UITableViewController {
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
-    }
+    }*/
     
     func deleteRow(at indexPath: IndexPath) {
         // Delete the row from the data source
