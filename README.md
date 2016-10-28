@@ -9,7 +9,7 @@ My exercises while reading the appcoda book.
 I will create git tag for some milestones
 
 1. `chapter12_pretty_coo`: list view with a very simple detail view.
-2. todo
+2. `plain_detail_view`: a usable detail view(table like)
 
 ### basic
 1. change cell style from basic to custom.
@@ -26,6 +26,14 @@ I will create git tag for some milestones
 
 1. 在outline的tableviewCell上点右键可以看到这个cell中定义的所有outlet
 2. UIKit中所有View都自带CALayer, 这个layer对象可以控制view的背景色,边框, 透明度, 圆角
+
+### basic 3
+1. 将image view在outline中拖动到cell之上
+2. aspect fill + clip to bounds
+3. cell中加两个Label: Field(Medium) + Value
+4. stackview这两个label
+5. 见251页,给stackview设置constraints(spacing以及垂直居中)
+6. 这时会产生一个layout warning: 不能给两个label设置相同的hugging priority, 原因是我们只给stack view设置了constraints,而让stack view自动管理它所包含label的constraints, 结果是Field被拉伸了, Value大小保持正常. 这是因为Field和Value有相同的hugging priority:251, 只要把Field的priority设置的更高比如261, 那么Field就会保持自己的本来大小(intrinsic size), 而Value则被拉伸.
 
 ### 设置圆角:
 
