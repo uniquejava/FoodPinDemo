@@ -155,6 +155,10 @@
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Byc-SU-SBv" id="zac-sb-5Ua"/>
+                                    <outlet property="delegate" destination="Byc-SU-SBv" id="mqa-DS-ckC"/>
+                                </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
