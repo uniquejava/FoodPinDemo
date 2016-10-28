@@ -7,6 +7,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -125,18 +126,21 @@
                                                     <rect key="frame" x="8" y="7.5" width="359" height="20.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="261" verticalHuggingPriority="251" text="Field" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g12-JB-SA7">
-                                                            <rect key="frame" x="0.0" y="0.0" width="37.5" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="119.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K2S-FE-9FG">
-                                                            <rect key="frame" x="37.5" y="0.0" width="321.5" height="20.5"/>
+                                                            <rect key="frame" x="119.5" y="0.0" width="239.5" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="g12-JB-SA7" firstAttribute="width" secondItem="K2S-FE-9FG" secondAttribute="width" multiplier="0.5" id="Fur-ll-K9s"/>
+                                                    </constraints>
                                                 </stackView>
                                             </subviews>
                                             <constraints>
