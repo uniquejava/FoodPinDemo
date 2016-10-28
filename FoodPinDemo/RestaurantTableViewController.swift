@@ -60,6 +60,36 @@ class RestaurantTableViewController: UITableViewController {
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let optionMenu = UIAlertController(title: nil, message: "What do you want do do?", preferredStyle: .actionSheet)
+        
+        // call
+        let callHandler = { (action: UIAlertAction) -> Void in
+            let alertMsg = UIAlertController(title: "Service Unavailable", message: "Sorry, the call feature is not available yet. Please retry later.", preferredStyle: .alert)
+            alertMsg.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alertMsg, animated: true, completion: nil)
+        }
+        let callAction = UIAlertAction(title: "call " + "123-000-\(indexPath.row)", style: .default, handler: callHandler)
+        optionMenu.addAction(callAction)
+        
+        // check-in
+        let checkInAction = UIAlertAction(title: "Check in", style: .default, handler: {
+            (action: UIAlertAction) -> Void in
+            
+            let cell = tableView.cellForRow(at: indexPath)
+            cell?.accessoryType = .checkmark
+        })
+        optionMenu.addAction(checkInAction)
+        
+        // cancel
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        optionMenu.addAction(cancelAction)
+        
+        present(optionMenu, animated: true, completion: nil)
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+        
+    }
 
     /*
     // Override to support conditional editing of the table view.
