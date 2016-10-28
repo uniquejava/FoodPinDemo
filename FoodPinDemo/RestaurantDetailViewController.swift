@@ -23,7 +23,7 @@ class RestaurantDetailViewController: UIViewController {
         //nameLabel.text = restaurant.name
         //typeLabel.text = restaurant.type
         //locationLabel.text = restaurant.location
-        //restaurantImageView.image = UIImage(named: restaurant.image)
+        restaurantImageView.image = UIImage(named: restaurant.image)
     }
 
     override func didReceiveMemoryWarning() {
