@@ -133,9 +133,14 @@ class RestaurantTableViewController: UITableViewController {
         // share
         let shareAction = UITableViewRowAction(style: .default, title: "Share", handler: {
             (action, indexPath) -> Void in
-    
-            let activityController = UIActivityViewController(activityItems: ["Just checking in at " + self.restaurantNames[indexPath.row]], applicationActivities: nil)
-            self.present(activityController, animated: true, completion: nil)
+            
+            let name = self.restaurantNames[indexPath.row]
+            let imageName = self.restaurantImages[indexPath.row]
+            if let imageToShare = UIImage(named: imageName) {
+                let activityController = UIActivityViewController(activityItems: ["Just checking in at " + name, imageToShare], applicationActivities: nil)
+                self.present(activityController, animated: true, completion: nil)
+            }
+            
         })
         
         // delete
