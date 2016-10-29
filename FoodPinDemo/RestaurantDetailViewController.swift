@@ -34,6 +34,10 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         tableView.separatorColor = UIColor(white: 240.0/255, alpha: 0.8)
         
         title = restaurant.name
+        
+        // self sizing cells
+        tableView.estimatedRowHeight = 36
+        tableView.rowHeight = UITableViewAutomaticDimension // this is iOS10 default value
     }
 
     override func didReceiveMemoryWarning() {
