@@ -33,6 +33,9 @@ class RestaurantTableViewController: UITableViewController {
         Restaurant(name: "CASK Pub and Kitchen", type: "Thai", location: "London", image: "caskpubkitchen.jpg", isVisited: false)
     ]
 
+    //override var preferredStatusBarStyle: UIStatusBarStyle {
+    //    return .lightContent
+    //}
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,6 +48,8 @@ class RestaurantTableViewController: UITableViewController {
         
         // remove the title of the back button(not for this scene, but for when this controller works as the source controller)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+        //navigationController?.navigationBar.barStyle = .blackTranslucent
+
     }
 
     override func didReceiveMemoryWarning() {
