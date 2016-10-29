@@ -32,6 +32,8 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         //set separator color
         tableView.separatorColor = UIColor(white: 240.0/255, alpha: 0.8)
+        
+        title = restaurant.name
     }
 
     override func didReceiveMemoryWarning() {
