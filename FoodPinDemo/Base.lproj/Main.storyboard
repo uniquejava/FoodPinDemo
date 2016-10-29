@@ -119,20 +119,20 @@
                                         <rect key="frame" x="0.0" y="328" width="375" height="36"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dTf-UM-3bm" id="lRA-bF-NnR">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="35.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="35"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I2z-KG-MKR">
-                                                    <rect key="frame" x="8" y="7.5" width="359" height="20.5"/>
+                                                    <rect key="frame" x="8" y="8" width="359" height="20"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="261" verticalHuggingPriority="251" text="Field" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g12-JB-SA7">
-                                                            <rect key="frame" x="0.0" y="0.0" width="119.5" height="20.5"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="120" height="20"/>
                                                             <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Value" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K2S-FE-9FG">
-                                                            <rect key="frame" x="119.5" y="0.0" width="239.5" height="20.5"/>
+                                                            <rect key="frame" x="120" y="0.0" width="239" height="20"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -162,13 +162,24 @@
                                     <outlet property="delegate" destination="Byc-SU-SBv" id="mqa-DS-ckC"/>
                                 </connections>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yKy-Yy-0Sj">
+                                <rect key="frame" x="339" y="8" width="28" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="hy4-3z-tqd"/>
+                                    <constraint firstAttribute="width" constant="28" id="sjW-Tn-HKF"/>
+                                </constraints>
+                                <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" image="check"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="yKy-Yy-0Sj" firstAttribute="top" secondItem="hqh-11-lSe" secondAttribute="bottom" constant="8" id="5Ld-HD-P6I"/>
                             <constraint firstAttribute="trailing" secondItem="1JK-bh-Hh7" secondAttribute="trailing" id="AKT-jF-MDC"/>
                             <constraint firstItem="1JK-bh-Hh7" firstAttribute="leading" secondItem="ozN-Nv-JN4" secondAttribute="leading" id="JcE-bn-zZT"/>
                             <constraint firstItem="1JK-bh-Hh7" firstAttribute="top" secondItem="hqh-11-lSe" secondAttribute="bottom" id="Klf-Ae-Zj8"/>
                             <constraint firstItem="ien-NK-IQH" firstAttribute="top" secondItem="1JK-bh-Hh7" secondAttribute="bottom" id="UvI-1G-2E2"/>
+                            <constraint firstItem="yKy-Yy-0Sj" firstAttribute="trailing" secondItem="ozN-Nv-JN4" secondAttribute="trailingMargin" constant="8" id="ffx-9H-PT9"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -200,4 +211,7 @@
             <point key="canvasLocation" x="268" y="132.68365817091455"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="check" width="28" height="28"/>
+    </resources>
 </document>
