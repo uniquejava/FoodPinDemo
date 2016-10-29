@@ -1,7 +1,7 @@
 # FoodPinDemo
 My exercises while reading the appcoda book.
 
-![](foodpin_ch12.png)
+![](polished-foodpin.png)
 
 ## Some notes
 
@@ -10,6 +10,7 @@ I will create git tag for some milestones
 
 1. `chapter12_pretty_coo`: list view with a very simple detail view.
 2. `plain_detail_view`: a usable detail view(table like)
+3. `polished-app`: a beautiful app.
 
 ### basic
 1. change cell style from basic to custom.
@@ -44,6 +45,59 @@ cell.thumbnailImageView.clipsToBounds = true
 或者选中image view在identity inspector中新增一个runtime属性layer.cornerRadius值为Number:30
 并在attributes inspector中勾选clip to bounds
 
+### 美化tableview/表格线
+```swift
+// set table view bg color
+tableView.backgroundColor = UIColor(white: 240.0/255, alpha: 0.2)
+// remove empty rows
+tableView.tableFooterView = UIView(frame: CGRect.zero)
+//set separator color
+tableView.separatorColor = UIColor(white: 240.0/255, alpha: 0.8)
+
+```
+
+## 美化nav bar
+1) 在didFinishLaunchingWithOptions设置nav bar的背景色
+
+```swift
+// nav bar bg color
+UINavigationBar.appearance().barTintColor = UIColor(red: 216.0/255, green: 74.0/255, blue: 32.0/255, alpha: 1.0)
+
+// nav bar button style(可以点击的)
+UINavigationBar.appearance().tintColor = UIColor.white
+
+// nav title style
+if let barFont = UIFont(name: "Avenir-Light", size: 24.0) {
+
+UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: barFont]
+}
+```
+Navbar的背景色为UINavigationBar.appearance().barTintColor, 但是它还有一个backgroundColor属性,呃.
+
+2) 在segue.source这边viewDidLoad中重新定义后退按钮(不带文字)
+
+```swift
+navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+```
+
+3) 在detail view的viewDidLoad中设置nav bar title
+
+```swift
+title = restaurant.name
+```
+
+## 美化status bar
+修改status bar黑色文字为白色, 两种方式:
+
+1) ViewController逐个修改, 覆盖preferredStatusBarStyle即可(.lightContent),我设置了但是不起作用, 参考这里的[solution][1], 在 viewDidLoad加上`navigationController?.navigationBar.barStyle = .blackTranslucent`
+
+
+2) 全局修改
+
+1. Info.plist设置`View controller-based status bar appearance=NO`
+2. AppDelegate中`UIApplication.shared.statusBarStyle = .lightContent`
+
+
 ### Keywords
 
 1. 取选中行的行号: tableView.indexPathForSelectedRow
@@ -52,6 +106,8 @@ cell.thumbnailImageView.clipsToBounds = true
 4. UIActivityViewController
 5. prepare(for:sender:)
 6. segue.destination/segue.identifier
+7. UINavigationBar.appearance().barTintColor
+8. UIApplication.shared.statusBarStyle
 
 ### Xcode tricks (my findings!)
 
@@ -59,4 +115,6 @@ cell.thumbnailImageView.clipsToBounds = true
 View > Show Tab Bar, create a new tab, for one tab, you can open storyboard, for the other, you can open the swift file, then you can use `shift+cmd+]` to switch between interface builder and source code file, pretty cool!
 
 
+
+[1]: http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7
 
