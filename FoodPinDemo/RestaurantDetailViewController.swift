@@ -12,6 +12,7 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
     //@IBOutlet weak var nameLabel: UILabel!
     //@IBOutlet weak var locationLabel: UILabel!
     //@IBOutlet weak var typeLabel: UILabel!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var restaurantImageView: UIImageView!
     var restaurant: Restaurant!
     
@@ -24,6 +25,13 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         //typeLabel.text = restaurant.type
         //locationLabel.text = restaurant.location
         restaurantImageView.image = UIImage(named: restaurant.image)
+        
+        // set table view bg color
+        tableView.backgroundColor = UIColor(white: 240.0/255, alpha: 0.2)
+        // remove empty rows
+        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        //set separator color
+        tableView.separatorColor = UIColor(white: 240.0/255, alpha: 0.8)
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,6 +45,8 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RestaurantDetailTableViewCell
+        
+        cell.backgroundColor = UIColor.clear
         
         switch indexPath.row {
         case 0:

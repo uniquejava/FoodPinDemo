@@ -172,6 +172,7 @@
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
                         <outlet property="restaurantImageView" destination="Ftm-sa-wGe" id="fZF-3n-KSS"/>
+                        <outlet property="tableView" destination="1JK-bh-Hh7" id="6II-jS-aCb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gz3-fE-00y" userLabel="First Responder" sceneMemberID="firstResponder"/>
