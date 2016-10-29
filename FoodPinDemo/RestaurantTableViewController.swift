@@ -49,6 +49,9 @@ class RestaurantTableViewController: UITableViewController {
         // remove the title of the back button(not for this scene, but for when this controller works as the source controller)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
         //navigationController?.navigationBar.barStyle = .blackTranslucent
+        
+        tableView.estimatedRowHeight = 80
+        tableView.rowHeight = UITableViewAutomaticDimension
 
     }
 
