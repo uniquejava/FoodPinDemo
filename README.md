@@ -1,7 +1,7 @@
 # FoodPinDemo
 My exercises while reading the appcoda book.
 
-![](polished-foodpin.png)
+![](foodpin_v1.png)
 
 ## Some notes
 
@@ -97,6 +97,11 @@ title = restaurant.name
 1. Info.plist设置`View controller-based status bar appearance=NO`
 2. AppDelegate中`UIApplication.shared.statusBarStyle = .lightContent`
 
+### 自适应大小的cell
+1. 将Value label的Lines从1改成0, 这样Label可以显示多行文字
+2. tableView.estimatedHeight改成它的预计行高值(36/44), 以优化性能, 默认值是0
+3. tableView.rowHeight = UITableViewAutomaticDimension, 从iOS10开始, 这已经是默认值
+4. 这时console会有个layout warning, 解决办法是给这个cell中包含的那个stack view设置top和bottom约束(之前已经给它设定了leading/trailing和center vertically的约束,但是对于自适应大小的cell来说还不够)
 
 ### Keywords
 
@@ -108,6 +113,7 @@ title = restaurant.name
 6. segue.destination/segue.identifier
 7. UINavigationBar.appearance().barTintColor
 8. UIApplication.shared.statusBarStyle
+9. Dynamic Type - use a text style instead of a fixed font type.
 
 ### Xcode tricks (my findings!)
 
