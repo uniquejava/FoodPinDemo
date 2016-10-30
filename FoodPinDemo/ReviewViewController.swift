@@ -21,7 +21,8 @@ class ReviewViewController: UIViewController {
         blurEffectView.frame = view.bounds
         backgroundImageView.addSubview(blurEffectView)
         
-        containerView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        //containerView.transform = CGAffineTransform(scaleX: 0, y: 0)
+        containerView.transform = CGAffineTransform(translationX: 0, y: -1000)
     }
     
     override func viewDidAppear(_ animated: Bool) {
