@@ -234,6 +234,9 @@
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" title="Absolutely love it!"/>
+                                                <connections>
+                                                    <segue destination="Xhu-FM-Lb6" kind="unwind" identifier="great" unwindAction="ratingButtonTappedWithSegue:" id="xkt-KC-FfM"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NbZ-mN-OwZ">
                                                 <rect key="frame" x="0.0" y="42.5" width="253" height="37.5"/>
@@ -241,6 +244,9 @@
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" title="Good"/>
+                                                <connections>
+                                                    <segue destination="Xhu-FM-Lb6" kind="unwind" identifier="good" unwindAction="ratingButtonTappedWithSegue:" id="G1P-4I-Y8f"/>
+                                                </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d7y-dz-bVF">
                                                 <rect key="frame" x="0.0" y="85" width="253" height="37.5"/>
@@ -248,6 +254,9 @@
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="16"/>
                                                 <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <state key="normal" title="I don't like it"/>
+                                                <connections>
+                                                    <segue destination="Xhu-FM-Lb6" kind="unwind" identifier="dislike" unwindAction="ratingButtonTappedWithSegue:" id="CyT-E9-NaI"/>
+                                                </connections>
                                             </button>
                                         </subviews>
                                         <constraints>
