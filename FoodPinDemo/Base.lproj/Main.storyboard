@@ -329,10 +329,10 @@
             </objects>
             <point key="canvasLocation" x="2709.5999999999999" y="132.68365817091455"/>
         </scene>
-        <!--View Controller-->
+        <!--Map View Controller-->
         <scene sceneID="WKT-Qy-TZe">
             <objects>
-                <viewController id="fuF-ol-fSg" sceneMemberID="viewController">
+                <viewController id="fuF-ol-fSg" customClass="MapViewController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UwB-p5-tC8"/>
                         <viewControllerLayoutGuide type="bottom" id="N2Q-28-vHd"/>
@@ -353,6 +353,9 @@
                             <constraint firstItem="sji-YG-uQo" firstAttribute="leading" secondItem="03a-GY-Cin" secondAttribute="leading" id="zvY-tf-Vlg"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mapView" destination="sji-YG-uQo" id="snr-Mc-ihB"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KeU-Uc-Qxg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

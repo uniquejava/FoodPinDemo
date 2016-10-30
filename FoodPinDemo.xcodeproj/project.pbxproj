@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		2E2F749C1DC5CF9C00B1729B /* ReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F749B1DC5CF9C00B1729B /* ReviewViewController.swift */; };
 		2E2F749F1DC6078800B1729B /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E2F749E1DC6078800B1729B /* MapKit.framework */; };
+		2E2F74A11DC6234500B1729B /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E2F74A01DC6234500B1729B /* MapViewController.swift */; };
 		2E67FF931DC34ED2002D3730 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E67FF921DC34ED2002D3730 /* AppDelegate.swift */; };
 		2E67FF981DC34ED2002D3730 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E67FF961DC34ED2002D3730 /* Main.storyboard */; };
 		2E67FF9A1DC34ED2002D3730 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E67FF991DC34ED2002D3730 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		2E2F749B1DC5CF9C00B1729B /* ReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewViewController.swift; sourceTree = "<group>"; };
 		2E2F749E1DC6078800B1729B /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		2E2F74A01DC6234500B1729B /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		2E67FF8F1DC34ED2002D3730 /* FoodPinDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FoodPinDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E67FF921DC34ED2002D3730 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2E67FF971DC34ED2002D3730 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				2E67FFA41DC34F98002D3730 /* RestaurantTableViewController.swift */,
 				2EB86CC61DC3AD42001A323A /* RestaurantDetailViewController.swift */,
 				2E2F749B1DC5CF9C00B1729B /* ReviewViewController.swift */,
+				2E2F74A01DC6234500B1729B /* MapViewController.swift */,
 				2EB86CC81DC3BC9A001A323A /* README.md */,
 			);
 			path = FoodPinDemo;
@@ -176,6 +179,7 @@
 				2E67FFA71DC35CCF002D3730 /* RestaurantTableViewCell.swift in Sources */,
 				2EB86CCB1DC3C116001A323A /* Restaurant.swift in Sources */,
 				2EB86CC91DC3BC9A001A323A /* README.md in Sources */,
+				2E2F74A11DC6234500B1729B /* MapViewController.swift in Sources */,
 				2EB86CC71DC3AD42001A323A /* RestaurantDetailViewController.swift in Sources */,
 				2E67FF931DC34ED2002D3730 /* AppDelegate.swift in Sources */,
 				2E2F749C1DC5CF9C00B1729B /* ReviewViewController.swift in Sources */,
