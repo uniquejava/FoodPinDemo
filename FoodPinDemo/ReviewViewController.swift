@@ -10,12 +10,17 @@ import UIKit
 
 class ReviewViewController: UIViewController {
     @IBOutlet weak var backgroundImageView: UIImageView!
+    @IBOutlet weak var ratingImageView: UIImageView!
     @IBOutlet weak var containerView: UIView!
+    
+    var restaurant: Restaurant!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        ratingImageView.image = UIImage(named: restaurant.image)
+        
         let blurEffect = UIBlurEffect(style: .dark)
         let blurEffectView = UIVisualEffectView(effect: blurEffect)
         blurEffectView.frame = view.bounds
