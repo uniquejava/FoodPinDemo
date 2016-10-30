@@ -1,7 +1,7 @@
 # FoodPinDemo
 My exercises while reading the appcoda book.
 
-![](foodpin_v1.png)
+![](polished-foodpin.png)
 
 ## Some notes
 
@@ -102,6 +102,93 @@ title = restaurant.name
 2. tableView.estimatedHeight改成它的预计行高值(36/44), 以优化性能, 默认值是0
 3. tableView.rowHeight = UITableViewAutomaticDimension, 从iOS10开始, 这已经是默认值
 4. 这时console会有个layout warning, 解决办法是给这个cell中包含的那个stack view设置top和bottom约束(之前已经给它设定了leading/trailing和center vertically的约束,但是对于自适应大小的cell来说还不够)
+
+### 圆形button
+1. title=blank, image=check, (type=system, tint=white设置按钮的颜色)
+2. 点pin按钮,设置top=8,right=8,width=28,height=28
+
+### 全屏背景
+1. drag a new view controller
+2. drag image view onto it, resize to full screen
+3. add missing constraints, 但是Xcode8.1上这个选项是灰的, 最后用了reset to suggested constraints
+
+### 半屏窗口
+1. container view: drag a view object onto the image view(x=53, y=40, 269*420)
+
+### 右上角关闭按钮
+1. Drag a button(top=-13, right=-12, 28*28), title=blank, image=cross
+2. 在前一屏中加入`@IBAction func close(segue: UIStoryboardSegue) {}`这句代码告诉Xcode这个viewController可以被unwind
+3. Ctrl drag this close button to the exit button on this review scene, and select `closeWithSegue:`
+
+### 让全屏背景模糊
+
+在viewDidLoad中加入
+
+```swift
+let blurEffect = UIBlurEffect(style: .dark)
+let blurEffectView = UIVisualEffectView(effect: blurEffect)
+blurEffectView.frame = view.bounds
+backgroundImageView.addSubview(blurEffectView)
+
+```
+就是给ImageView加上一个大小相同的subview, 上面代码中第三行view变量是所有UIViewController都有的, 表示这个ViewController管理的顶层view对象.
+
+### Container view大小变换(scaleX)
+怎么将view的大小变成0? 大小值用`CGAffineTransform`表示
+
+1. 大小为0:CGAffineTransform(scaleX: 0, y: 0)
+2. 原始大小及位置:CGAffineTransform.indentiy
+3. 在viewDidLoad中将view的transform属性设置为0
+4. 在viewDIdAppear中将view的transform属性设置为原始值.
+
+
+简单动画
+
+```swift
+UIView.animate(withDuration: 0.3, animations: {
+self.containerView.transform = CGAffineTransform.identity
+})
+```
+
+Spring动画(UIView.animate多加些参数)
+
+```swift
+UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
+self.containerView.transform = CGAffineTransform.identity
+}, completion: nil)
+```
+
+### 组合变换scale + translate(viewDidLoad)
+
+```swift
+let scaleTransform = CGAffineTransform(scaleX: 0, y: 0)
+let translateTransform = CGAffineTransform(translationX: 0, y: -1000)
+let combineTransform = scaleTransform.concatenating(translateTransform)
+containerView.transform = combineTransform
+```
+
+CGAffineTransform(translationX:y:)中的x, y都是相对于目标原始位置的偏移量, 并不是相对屏幕左上角.
+
+### 3 more unwind segue(with identifier)
+在detailViewController中加入`@IBAction func ratingButtonTapped(segue: UIStoryboardSegue) {}`
+分别拖动review界面上的三个评价按钮到exit button, 全部选择ratingButtonTappedWithSegue:, 这样在outline中会多出三个unwind segue, 设定它们的identifier为great/good/dislike
+
+
+```swift
+@IBAction func ratingButtonTapped(segue: UIStoryboardSegue) {
+if let rating = segue.identifier {
+restaurant.isVisited = true
+
+switch rating {
+case "great": restaurant.rating = "love it."
+// ...
+default: break
+}
+}
+
+tableView.reloadData()
+}
+```
 
 ### Keywords
 
