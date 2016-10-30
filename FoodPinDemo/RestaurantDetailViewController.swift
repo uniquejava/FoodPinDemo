@@ -29,7 +29,7 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         // set table view bg color
         tableView.backgroundColor = UIColor(white: 240.0/255, alpha: 0.2)
         // remove empty rows
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        //tableView.tableFooterView = UIView(frame: CGRect.zero)
         //set separator color
         tableView.separatorColor = UIColor(white: 240.0/255, alpha: 0.8)
         
