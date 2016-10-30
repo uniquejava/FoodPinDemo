@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class RestaurantDetailViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     //@IBOutlet weak var nameLabel: UILabel!
@@ -14,6 +15,8 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
     //@IBOutlet weak var typeLabel: UILabel!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var restaurantImageView: UIImageView!
+    @IBOutlet weak var mapView: MKMapView!
+    
     var restaurant: Restaurant!
     
     
@@ -38,6 +41,14 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         // self sizing cells
         tableView.estimatedRowHeight = 36
         tableView.rowHeight = UITableViewAutomaticDimension // this is iOS10 default value
+        
+        // tap on static map view
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showMap))
+        mapView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    func showMap(){
+        performSegue(withIdentifier: "showMap", sender: self)
     }
 
     override func didReceiveMemoryWarning() {

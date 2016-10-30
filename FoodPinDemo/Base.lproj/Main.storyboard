@@ -191,6 +191,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <connections>
+                        <outlet property="mapView" destination="ant-eg-CLe" id="8kf-Kp-4Ux"/>
                         <outlet property="restaurantImageView" destination="Ftm-sa-wGe" id="fZF-3n-KSS"/>
                         <outlet property="tableView" destination="1JK-bh-Hh7" id="6II-jS-aCb"/>
                         <segue destination="fuF-ol-fSg" kind="show" identifier="showMap" id="yXz-i5-o9r"/>
