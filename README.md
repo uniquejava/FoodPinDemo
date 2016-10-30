@@ -190,6 +190,85 @@ tableView.reloadData()
 }
 ```
 
+### Static Map
+1. Switch ON map capability
+2. Drag a map view onto the table view footer(height=135)
+3. We want a static map, so untick all Allows(zooming, scrolling...)
+4. That's all
+
+### Fullscreen map
+1. Drag a new view controller
+2. Drag a new map view, resize it to be full-screen, add missing constraints
+3. Ctrl drag from detail view controller to this newly created controller, segue.identifier=showMap(为什么不从static map拖到map view controller, 这是因为table header和footer都没法点击, 只能通过代码来打开新的view controller
+
+### 给static map绑定tap事件
+在detail view的viewDidLoad中
+
+```swift
+let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showMap))
+mapView.addGestureRecognizer(tapGestureRecognizer)
+```
+
+performSegue以编程的方式触发transition.
+
+```swift
+func showMap(){
+performSegue(withIdentifier: "showMap", sender: self)
+}
+```
+注意是UITapGestureRecognizer而非UIGestureRecognizer.
+
+### 地址转coordinate
+
+
+地址转coordinate: 你输入一个文本地址, 地图服务器通常会返回一堆相似的地址, 这堆文本地址叫placemarks
+
+```swift
+let geoCoder = CLGeocoder()
+geoCoder.geocodeAddressString(restaurant.location, completionHandler: {
+placemarks, error in
+let coordinate = placemarks?[0].location?.coordinate
+})
+```
+
+在static map上标记位置.
+
+```swift
+// 搜索地址
+let geoCoder = CLGeocoder()
+geoCoder.geocodeAddressString("湖北省鄂州高中", completionHandler: {
+placemarks, error in
+if error != nil { print(error!); return }
+// 地址转坐标
+if let coordinate = placemarks?[0].location?.coordinate {
+// 在那个位置显示一个pin
+let annotation = MKPointAnnotation()
+annotation.coordinate = coordinate
+self.mapView.addAnnotation(annotation)
+
+// 以那个pin为中心显示多大的区域, 半径250米
+let region = MKCoordinateRegionMakeWithDistance(coordinate, 250, 250)
+self.mapView.setRegion(region, animated: true)
+}
+
+})
+```
+
+显示多个pin, 并选择一个弹出气泡提示
+
+```swift
+if let coordinate = placemarks?[0].location?.coordinate {
+let annotation = MKPointAnnotation()
+annotation.coordinate = coordinate
+annotation.title = "湖北省鄂州高中"
+annotation.subtitle = "滨湖南路特一号"
+//self.mapView.addAnnotation(annotation)
+self.mapView.showAnnotations([annotation], animated: true)
+self.mapView.selectAnnotation(annotation, animated: true)
+}
+```
+和上面的代码区别很小(并且这种情况下map会选择最优region)
+
 ### Keywords
 
 1. 取选中行的行号: tableView.indexPathForSelectedRow
@@ -201,6 +280,10 @@ tableView.reloadData()
 7. UINavigationBar.appearance().barTintColor
 8. UIApplication.shared.statusBarStyle
 9. Dynamic Type - use a text style instead of a fixed font type.
+
+### Omitted
+1. Swipe to hide
+2. MapKit: show image on callout bubble
 
 ### Xcode tricks (my findings!)
 
