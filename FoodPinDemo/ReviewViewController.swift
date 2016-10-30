@@ -25,9 +25,13 @@ class ReviewViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        UIView.animate(withDuration: 0.3, animations: {
+        //UIView.animate(withDuration: 0.3, animations: {
+        //    self.containerView.transform = CGAffineTransform.identity
+        //})
+        
+        UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
             self.containerView.transform = CGAffineTransform.identity
-        })
+        }, completion: nil)
     }
 
     override func didReceiveMemoryWarning() {
