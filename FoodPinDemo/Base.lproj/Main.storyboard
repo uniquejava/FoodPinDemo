@@ -385,10 +385,10 @@
             </objects>
             <point key="canvasLocation" x="268" y="132.68365817091455"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Add Restaurant Controller-->
         <scene sceneID="hk0-7E-MHL">
             <objects>
-                <tableViewController id="H1R-Gu-PGW" sceneMemberID="viewController">
+                <tableViewController id="H1R-Gu-PGW" customClass="AddRestaurantController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="zc5-bE-mnZ">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
