@@ -24,7 +24,7 @@
                                 <rect key="frame" x="0.0" y="28" width="375" height="80"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aCq-aI-Ozg" id="NDn-Bs-Oqg">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="79.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="79"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="HrJ-Jo-h2W">
@@ -192,6 +192,35 @@
             </objects>
             <point key="canvasLocation" x="1960.8" y="132.68365817091455"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="dwx-F8-C0F">
+            <objects>
+                <viewController id="UZs-4a-hAq" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IaJ-nf-war"/>
+                        <viewControllerLayoutGuide type="bottom" id="JmI-CX-Et4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TJC-AD-v74">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cafeloisl" translatesAutoresizingMaskIntoConstraints="NO" id="6vZ-fG-HKE">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6vZ-fG-HKE" firstAttribute="leading" secondItem="TJC-AD-v74" secondAttribute="leading" id="NfN-9n-Rhj"/>
+                            <constraint firstItem="6vZ-fG-HKE" firstAttribute="bottom" secondItem="JmI-CX-Et4" secondAttribute="top" id="iP9-CT-QMn"/>
+                            <constraint firstAttribute="trailing" secondItem="6vZ-fG-HKE" secondAttribute="trailing" id="jdk-OJ-avw"/>
+                            <constraint firstItem="6vZ-fG-HKE" firstAttribute="top" secondItem="TJC-AD-v74" secondAttribute="top" id="xcI-pt-9h0"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lW0-dk-jcG" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2709.5999999999999" y="132.68365817091455"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="bMF-QQ-nch">
             <objects>
@@ -212,6 +241,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="cafeloisl" width="480" height="480"/>
         <image name="check" width="28" height="28"/>
     </resources>
 </document>
