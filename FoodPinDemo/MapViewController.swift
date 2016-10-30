@@ -11,13 +11,14 @@ import MapKit
 
 class MapViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
+    var restaurant: Restaurant!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
         let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString("湖北省鄂州高中", completionHandler: {
+        geoCoder.geocodeAddressString(restaurant.location, completionHandler: {
             placemarks, error in
             if error != nil {
                 print(error!)
@@ -27,15 +28,11 @@ class MapViewController: UIViewController {
             if let coordinate = placemarks?[0].location?.coordinate {
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = coordinate
-                annotation.title = "湖北省鄂州高中"
-                annotation.subtitle = "滨湖南路特一号"
+                annotation.title = self.restaurant.name
+                annotation.subtitle = self.restaurant.type
                 //self.mapView.addAnnotation(annotation)
                 self.mapView.showAnnotations([annotation], animated: true)
                 self.mapView.selectAnnotation(annotation, animated: true)
-                
-                // set the zoom level, 250 meters
-                //let region = MKCoordinateRegionMakeWithDistance(coordinate, 250, 250)
-                //self.mapView.setRegion(region, animated: true)
             }
             
         })

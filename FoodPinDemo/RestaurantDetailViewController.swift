@@ -48,7 +48,7 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         
         
         let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString("湖北省鄂州高中", completionHandler: {
+        geoCoder.geocodeAddressString(restaurant.location, completionHandler: {
             placemarks, error in
             if error != nil {
                 print(error!)
@@ -112,6 +112,9 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showReview" {
             let controller = segue.destination as! ReviewViewController
+            controller.restaurant = self.restaurant
+        } else if segue.identifier == "showMap" {
+            let controller = segue.destination as! MapViewController
             controller.restaurant = self.restaurant
         }
     }
