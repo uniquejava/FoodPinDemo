@@ -195,10 +195,10 @@
             </objects>
             <point key="canvasLocation" x="1960.8" y="132.68365817091455"/>
         </scene>
-        <!--View Controller-->
+        <!--Review View Controller-->
         <scene sceneID="dwx-F8-C0F">
             <objects>
-                <viewController id="UZs-4a-hAq" sceneMemberID="viewController">
+                <viewController id="UZs-4a-hAq" customClass="ReviewViewController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="IaJ-nf-war"/>
                         <viewControllerLayoutGuide type="bottom" id="JmI-CX-Et4"/>
@@ -302,6 +302,9 @@
                             <constraint firstItem="6vZ-fG-HKE" firstAttribute="top" secondItem="TJC-AD-v74" secondAttribute="top" id="xcI-pt-9h0"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="backgroundImageView" destination="6vZ-fG-HKE" id="TRa-qS-h3Z"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lW0-dk-jcG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Xhu-FM-Lb6" userLabel="Exit" sceneMemberID="exit"/>
