@@ -12,6 +12,7 @@ class ReviewViewController: UIViewController {
     @IBOutlet weak var backgroundImageView: UIImageView!
     @IBOutlet weak var ratingImageView: UIImageView!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var closeButton: UIButton!
     
     var restaurant: Restaurant!
 
@@ -30,6 +31,8 @@ class ReviewViewController: UIViewController {
         let translateTransform = CGAffineTransform(translationX: 0, y: -1000)
         let combineTransform = scaleTransform.concatenating(translateTransform)
         containerView.transform = combineTransform
+        
+        closeButton.transform = CGAffineTransform(translationX: 100, y: 0)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,6 +43,12 @@ class ReviewViewController: UIViewController {
         UIView.animate(withDuration: 0.3, delay: 0.0, usingSpringWithDamping: 0.3, initialSpringVelocity: 0.2, options: .curveEaseOut, animations: {
             self.containerView.transform = CGAffineTransform.identity
         }, completion: nil)
+        
+        // close button animation
+        UIView.animate(withDuration: 0.5, animations: {
+            self.closeButton.transform = CGAffineTransform.identity
+        })
+        
     }
 
     override func didReceiveMemoryWarning() {

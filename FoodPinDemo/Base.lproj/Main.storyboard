@@ -313,6 +313,7 @@
                     </view>
                     <connections>
                         <outlet property="backgroundImageView" destination="6vZ-fG-HKE" id="TRa-qS-h3Z"/>
+                        <outlet property="closeButton" destination="EB7-QP-3xd" id="y1s-Xx-Tfx"/>
                         <outlet property="containerView" destination="cmZ-fh-Ws7" id="3Cc-Of-D0j"/>
                         <outlet property="ratingImageView" destination="GEd-Ra-9bQ" id="Lut-YI-KIj"/>
                     </connections>
