@@ -89,7 +89,13 @@
                             <outlet property="delegate" destination="9as-dK-cQ8" id="KG3-2z-IK0"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Food Pin" id="3i8-fO-R0l"/>
+                    <navigationItem key="navigationItem" title="Food Pin" id="3i8-fO-R0l">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="BHP-FY-Mvl">
+                            <connections>
+                                <segue destination="so5-w6-PUn" kind="presentation" identifier="addRestaurant" id="YOr-D9-kij"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zXS-C1-DI1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -544,11 +550,18 @@
                             <outlet property="delegate" destination="H1R-Gu-PGW" id="MQQ-Vk-Mfc"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="fIU-Uo-AMF"/>
+                    <navigationItem key="navigationItem" id="fIU-Uo-AMF">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="RCK-3c-VrK">
+                            <connections>
+                                <segue destination="4c5-m7-b6T" kind="unwind" unwindAction="unwindToHomeScreenWithSegue:" id="SSd-ml-kFC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlO-rY-AtQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="4c5-m7-b6T" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1207.2" y="824.43778110944538"/>
+            <point key="canvasLocation" x="1961" y="857"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Yay-gk-xHA">
@@ -566,7 +579,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kd0-Pp-mU6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="268" y="824.43778110944538"/>
+            <point key="canvasLocation" x="1121" y="857"/>
         </scene>
     </scenes>
     <resources>
