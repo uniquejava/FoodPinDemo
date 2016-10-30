@@ -45,6 +45,27 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         // tap on static map view
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(showMap))
         mapView.addGestureRecognizer(tapGestureRecognizer)
+        
+        
+        let geoCoder = CLGeocoder()
+        geoCoder.geocodeAddressString("湖北省鄂州高中", completionHandler: {
+            placemarks, error in
+            if error != nil {
+                print(error!)
+                return
+            }
+            
+            if let coordinate = placemarks?[0].location?.coordinate {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = coordinate
+                self.mapView.addAnnotation(annotation)
+                
+                // set the zoom level, 250 meters
+                let region = MKCoordinateRegionMakeWithDistance(coordinate, 250, 250)
+                self.mapView.setRegion(region, animated: true)
+            }
+            
+        })
     }
     
     func showMap(){
