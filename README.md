@@ -334,7 +334,6 @@ leading.isActive = true
 
 ### 关闭view controller两种办法
 
-
 ```swift
 @IBAction func saveRestaurant() {
 if checkForm() {
@@ -345,6 +344,87 @@ performSegue(withIdentifier: "unwindToHomeScreen", sender: self)
 ```
 因为我想沿用Cancel按钮使用的unwind segue,在用第2种方法的时候碰到了找不到unwind segue identifier的问题, 参见[SO]解决: 虽然unwind segue的Action segue是根据你所定义的func名字生成的, 但是identifier还是需要自己指定.
 
+### CoreData Data Model
+新建一个Data Model: `FoodPinDemo.xcdatamodeld`, Entity改名为Restaurant, Class改名为RestaurantMO(这个Managed Object类编译项目会自动生成, project中看不到)
+
+RestaurantMO所有属性都变成了optional, 并且image(binary)的类型为NSData.
+
+主要变化
+
+1. UIImage(named: restaurant.image) -> UIImage(data: restaurant.image as! Data)
+2. resturant.location -> restaurant.location!
+3. restaurant.rating -> restaurant.rating ?? ""
+
+之前的Restaurant.swift废掉, 可以删除.
+
+### CoreData CRUD
+findAll, 在viewWillAppear中加入:
+
+```swift
+let appDelegate = UIApplication.shared.delegate as! AppDelegate
+let ctx = appDelegate.persistentContainer.viewContext
+let request: NSFetchRequest<RestaurantMO> = RestaurantMO.fetchRequest()
+let restaurants = try! ctx.fetch(request)
+```
+
+简单封装的工具类CD(save传的参数没有用到, 只是为了好看!):
+
+```swift
+class CD {
+
+class var appDelegate: AppDelegate {
+return UIApplication.shared.delegate as! AppDelegate
+}
+class var ctx: NSManagedObjectContext {
+return appDelegate.persistentContainer.viewContext
+}
+
+class func delete<T: NSManagedObject>(_ o: T) {
+ctx.delete(o)
+save(o)
+}
+
+class func save(_ _: NSManagedObject) {
+appDelegate.saveContext()
+}
+
+class func image2Data(image: UIImage?) -> NSData? {
+if let image = image {
+if let imageData = UIImagePNGRepresentation(image) {
+return NSData(data: imageData)
+}
+}
+
+return nil
+}
+```
+这个类间歇性的报ambiguous use of x 的错误, 但是程序能正常运行, 怀疑是Xcode8.1的bug.
+
+增删改查:
+
+```swift
+// create (AddRestaurantController)
+let restaurant = RestaurantMO(context: CD.ctx)
+restaurant.name = name
+restaurant.type = type
+restaurant.image = CD.image2Data(image: photoImageView.image)
+CD.save(restaurant)
+
+// delete (editActionsForRowAt)
+let restaurant = restaurants.remove(at: indexPath.row)
+tableView.deleteRows(at: [indexPath], with: .fade)
+CD.delete(restaurant)
+
+// update (ratingButtonTapped)
+restaurant.isVisited = true
+CD.save(restaurant)
+
+// find all (viewWillAppear)
+let request: NSFetchRequest<RestaurantMO> = RestaurantMO.fetchRequest()
+restaurants = try! CD.ctx.fetch(request)
+tableView.reloadData()
+```
+待研究: http://stackoverflow.com/questions/37810967/how-to-apply-the-type-to-a-nsfetchrequest-instance
 
 ### Keywords
 
@@ -365,6 +445,7 @@ performSegue(withIdentifier: "unwindToHomeScreen", sender: self)
 ### Omitted
 1. Swipe to hide
 2. MapKit: show image on callout bubble
+3. NSFetchedResultsController
 
 ### Xcode tricks
 
