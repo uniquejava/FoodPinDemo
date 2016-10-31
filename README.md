@@ -269,6 +269,83 @@ self.mapView.selectAnnotation(annotation, animated: true)
 ```
 和上面的代码区别很小(并且这种情况下map会选择最优region)
 
+### NEW Form
+1. 5 cells, rowHeight=250,72,72,72,72
+2. image view (64*64) center
+3. text field(placeholder, no border, width = 339)
+4. select labels + text fields, add missing constraints
+5. YES/NO buttons, color=white, bgColor=red/gray
+6. Embed in navigation controller
+
+### + -> NEW Form
+1. NEW Form为什么要套在nav controller中?(是为了在左上角加上Cancel按钮)
+2. Ctrl drag + 号到nav controller, 类型为Present Modally, identifier=addRestaurant
+3. HomeController中写上`@IBAction func unwindToHomeScreen(segue: UIStoryboardSegue) {}`
+4. New Form左上弄个Cancel按钮, 并拖到Exit button上新增unwind segue
+
+### 打开ImagePicker
+因为image view是放在第一个cell中. 只要实现didSelectRowAt, 并且在其中present系统内置的UIImagePickerController
+
+
+```swift
+if indexPath.row == 0 {
+if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
+let imagePicker = UIImagePickerController()
+imagePicker.allowsEditing = false
+imagePicker.sourceType = .photoLibrary
+
+present(imagePicker, animated: true, completion: nil)
+}
+}
+
+```
+
+从iOS10开始, 需要在Info.plist中显示指定打开图库的理由, 以便得到用户允许.`Privacy - Photo Library Usage Description=就是要看!`
+
+直接把`.photoLibrary`改成`.camera`可以拍照取图
+
+### ImagePicker回调
+ImagePicker的delegate必须同时满足两个接口:`UIImagePickerControllerDelegate, UINavigationControllerDelegate`
+在didSelectRow中present前`imagePicker.delegate = self`, 然后实现下面这个回调函数即可
+UIImagePickerControllerDelegate.didFinishPickingMediaWithInfo
+
+```swift
+func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+if let selectedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+photoImageView.image = selectedImage
+photoImageView.contentMode = .scaleAspectFill
+photoImageView.clipsToBounds = true
+}
+
+dismiss(animated: true, completion: nil)
+}
+```
+在didSelectRowAt中present, 在这个回调中dismiss(这个dismiss是关闭从当前view controller中打开的modal对话框,并不是关闭自身)
+
+### NSLayoutConstraint
+A layout constraint defines a relationship between two user interface objects用公式表示:
+`photoImageView.leading = superview.leading * 1 + 0`
+用代码实现这个公式.
+
+```swift
+let leading = NSLayoutConstraint(item: photoImageView, attribute: .leading, relatedBy: .equal, toItem: photoImageView.superview, attribute: .leading, multiplier: 1, constant: 0)
+leading.isActive = true
+```
+
+### 关闭view controller两种办法
+
+
+```swift
+@IBAction func saveRestaurant() {
+if checkForm() {
+//dismiss(animated: true, completion: nil)
+performSegue(withIdentifier: "unwindToHomeScreen", sender: self)
+
+} else {
+```
+因为我想沿用Cancel按钮使用的unwind segue,在用第2种方法的时候碰到了找不到unwind segue identifier的问题, 参见[SO]解决: 虽然unwind segue的Action segue是根据你所定义的func名字生成的, 但是identifier还是需要自己指定.
+
+
 ### Keywords
 
 1. 取选中行的行号: tableView.indexPathForSelectedRow
@@ -280,17 +357,24 @@ self.mapView.selectAnnotation(annotation, animated: true)
 7. UINavigationBar.appearance().barTintColor
 8. UIApplication.shared.statusBarStyle
 9. Dynamic Type - use a text style instead of a fixed font type.
+10. CLGeocoder.geocodeAddressString
+11. mapView.addAnnotation(MKPointAnnotation)
+12. UIImagePickerController
+13. NSLayoutConstraint(..).isActive
 
 ### Omitted
 1. Swipe to hide
 2. MapKit: show image on callout bubble
 
-### Xcode tricks (my findings!)
+### Xcode tricks
 
-#### 1. how to switch between storyboard and swift file
-View > Show Tab Bar, create a new tab, for one tab, you can open storyboard, for the other, you can open the swift file, then you can use `shift+cmd+]` to switch between interface builder and source code file, pretty cool!
+1. How to switch between storyboard and swift file
+>View > Show Tab Bar, create a new tab, for one tab, you can open storyboard, for the other, you can open the swift file, then you can use `shift+cmd+]` to switch between interface builder and source code file.
 
+2. Interface builder: Zoom to fit
+3. Can directly drag image from Finder to Simulator
 
 
 [1]: http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7
+[SO]: http://stackoverflow.com/questions/27889645/performseguewithidentifier-has-no-segue-with-identifier
 
