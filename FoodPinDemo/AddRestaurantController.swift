@@ -11,6 +11,13 @@ import UIKit
 class AddRestaurantController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @IBOutlet weak var photoImageView: UIImageView!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var typeTextField: UITextField!
+    @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var yesButton: UIButton!
+    @IBOutlet weak var noButton: UIButton!
+    
+    var isVisited = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,5 +72,57 @@ class AddRestaurantController: UITableViewController, UIImagePickerControllerDel
         
         dismiss(animated: true, completion: nil)
     }
+    
+    @IBAction func didClickYesNoButton(_ sender: UIButton) {
+        if sender == yesButton {
+            yesButton.backgroundColor = UIColor.red
+            noButton.backgroundColor = UIColor.lightGray
+            isVisited = true
+        } else {
+            noButton.backgroundColor = UIColor.red
+            yesButton.backgroundColor = UIColor.lightGray
+            isVisited = false
+        }
+        
+    }
+
+    
+    @IBAction func saveRestaurant() {
+        if checkForm() {
+            //dismiss(animated: true, completion: nil)
+            
+            // see here: http://stackoverflow.com/questions/27889645/performseguewithidentifier-has-no-segue-with-identifier
+            performSegue(withIdentifier: "unwindToHomeScreen", sender: self)
+            
+        } else {
+            let controller = UIAlertController(title: "Oops", message: "We can't proceed, all fields are mandatory!", preferredStyle: .alert)
+            controller.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(controller, animated: true, completion: nil)
+        }
+    }
+    
+    func checkForm() -> Bool {
+        guard let name = nameTextField.text, !name.isEmpty else {
+            return false
+        }
+        guard let type = typeTextField.text, !type.isEmpty else {
+            return false
+        }
+        
+        guard let location = locationTextField.text, !location.isEmpty else {
+            return false
+        }
+        
+        
+        print(name)
+        print(type)
+        print(location)
+        print(isVisited)
+        
+        
+        return true
+    }
+    
+    
 
 }

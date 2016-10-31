@@ -523,6 +523,9 @@
                                                     <state key="normal" title="YES">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="didClickYesNoButton:" destination="H1R-Gu-PGW" eventType="touchUpInside" id="TUq-ef-AhZ"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ta-vn-VPv">
                                                     <rect key="frame" x="73" y="33" width="30" height="30"/>
@@ -530,6 +533,9 @@
                                                     <state key="normal" title="NO">
                                                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="didClickYesNoButton:" destination="H1R-Gu-PGW" eventType="touchUpInside" id="ef9-Xl-rWX"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -553,12 +559,22 @@
                     <navigationItem key="navigationItem" id="fIU-Uo-AMF">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="RCK-3c-VrK">
                             <connections>
-                                <segue destination="4c5-m7-b6T" kind="unwind" unwindAction="unwindToHomeScreenWithSegue:" id="SSd-ml-kFC"/>
+                                <segue destination="4c5-m7-b6T" kind="unwind" identifier="unwindToHomeScreen" unwindAction="unwindToHomeScreenWithSegue:" id="SSd-ml-kFC"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="wR8-QW-Mzl">
+                            <connections>
+                                <action selector="saveRestaurant" destination="H1R-Gu-PGW" id="9az-sJ-hJe"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="locationTextField" destination="VcQ-7n-WUq" id="Xox-GP-yhr"/>
+                        <outlet property="nameTextField" destination="M8e-wN-OJx" id="Flk-cO-zfJ"/>
+                        <outlet property="noButton" destination="9Ta-vn-VPv" id="rsr-h3-W34"/>
                         <outlet property="photoImageView" destination="680-aC-15U" id="Dg7-4m-5jl"/>
+                        <outlet property="typeTextField" destination="Yj3-MM-Qek" id="Qfn-5q-SNY"/>
+                        <outlet property="yesButton" destination="mK6-sC-dVB" id="uWg-bL-dzi"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlO-rY-AtQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
