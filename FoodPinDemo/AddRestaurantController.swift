@@ -114,10 +114,14 @@ class AddRestaurantController: UITableViewController, UIImagePickerControllerDel
         }
         
         
-        print(name)
-        print(type)
-        print(location)
-        print(isVisited)
+        let restaurant = RestaurantMO(context: CD.ctx)
+        restaurant.name = name
+        restaurant.type = type
+        restaurant.location = location
+        restaurant.isVisited = isVisited
+        restaurant.image = CD.image2Data(image: photoImageView.image)
+        CD.save(restaurant)
+        
         
         
         return true

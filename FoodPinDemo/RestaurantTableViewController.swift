@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class RestaurantTableViewController: UITableViewController {
     var restaurants:[RestaurantMO] = []
@@ -54,7 +55,14 @@ class RestaurantTableViewController: UITableViewController {
         
         tableView.estimatedRowHeight = 80
         tableView.rowHeight = UITableViewAutomaticDimension
-
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        // TODO bad performance, use NSFetchedResultsController instead.
+        let request: NSFetchRequest<RestaurantMO> = RestaurantMO.fetchRequest()
+        restaurants = try! CD.ctx.fetch(request)
+        tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -150,9 +158,10 @@ class RestaurantTableViewController: UITableViewController {
     
     func deleteRow(at indexPath: IndexPath) {
         // Delete the row from the data source
-        restaurants.remove(at: indexPath.row)
+        let restaurant = restaurants.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
 
+        CD.delete(restaurant)
     }
     
     override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
