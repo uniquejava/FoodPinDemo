@@ -557,6 +557,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="photoImageView" destination="680-aC-15U" id="Dg7-4m-5jl"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RlO-rY-AtQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="4c5-m7-b6T" userLabel="Exit" sceneMemberID="exit"/>
