@@ -14,6 +14,7 @@ class AddRestaurantController: UITableViewController, UIImagePickerControllerDel
     @IBOutlet weak var nameTextField: UITextField!
     @IBOutlet weak var typeTextField: UITextField!
     @IBOutlet weak var locationTextField: UITextField!
+    @IBOutlet weak var phoneTextField: UITextField!
     @IBOutlet weak var yesButton: UIButton!
     @IBOutlet weak var noButton: UIButton!
     
@@ -118,6 +119,7 @@ class AddRestaurantController: UITableViewController, UIImagePickerControllerDel
         restaurant.name = name
         restaurant.type = type
         restaurant.location = location
+        restaurant.phone = phoneTextField.text
         restaurant.isVisited = isVisited
         restaurant.image = CD.image2Data(image: photoImageView.image)
         CD.save(restaurant)
