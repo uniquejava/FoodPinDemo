@@ -17,7 +17,7 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
     @IBOutlet weak var restaurantImageView: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
     
-    var restaurant: Restaurant!
+    var restaurant: RestaurantMO!
     
     
     override func viewDidLoad() {
@@ -27,7 +27,7 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         //nameLabel.text = restaurant.name
         //typeLabel.text = restaurant.type
         //locationLabel.text = restaurant.location
-        restaurantImageView.image = UIImage(named: restaurant.image)
+        restaurantImageView.image = UIImage(data: restaurant.image as! Data)
         
         // set table view bg color
         tableView.backgroundColor = UIColor(white: 240.0/255, alpha: 0.2)
@@ -48,7 +48,7 @@ class RestaurantDetailViewController: UIViewController, UITableViewDataSource, U
         
         
         let geoCoder = CLGeocoder()
-        geoCoder.geocodeAddressString(restaurant.location, completionHandler: {
+        geoCoder.geocodeAddressString(restaurant.location!, completionHandler: {
             placemarks, error in
             if error != nil {
                 print(error!)

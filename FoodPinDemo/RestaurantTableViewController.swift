@@ -9,7 +9,9 @@
 import UIKit
 
 class RestaurantTableViewController: UITableViewController {
-    var restaurants:[Restaurant] = [
+    var restaurants:[RestaurantMO] = []
+        /*
+        [
         Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "G/F, 72 Po Hing Fong, Sheung Wan, Hong Kong", phone: "232-923423", image: "cafedeadend.jpg", isVisited: false),
         Restaurant(name: "Homei", type: "Cafe", location: "Shop B, G/F, 22-24A Tai Ping San Street SOHO, Sheung Wan, Hong Kong", phone: "348-233423", image: "homei.jpg", isVisited: false),
         Restaurant(name: "Teakha", type: "Tea House", location: "Shop B, 18 Tai Ping Shan Road SOHO, Sheung Wan, Hong Kong", phone: "354-243523", image: "teakha.jpg", isVisited: false),
@@ -32,7 +34,7 @@ class RestaurantTableViewController: UITableViewController {
         Restaurant(name: "Royal Oak", type: "British", location: "2 Regency Street London SW1P 4BZ United Kingdom", phone: "343-988834", image: "royaloak.jpg", isVisited: false),
         Restaurant(name: "CASK Pub and Kitchen", type: "Thai", location: "22 Charlwood Street London SW1V 2DY Pimlico", phone: "432-344050", image: "caskpubkitchen.jpg", isVisited: false)
     ]
-
+    */
     //override var preferredStatusBarStyle: UIStatusBarStyle {
     //    return .lightContent
     //}
@@ -81,7 +83,7 @@ class RestaurantTableViewController: UITableViewController {
         cell.nameLabel.text = r.name
         cell.locationLabel.text = r.location
         cell.typeLabel.text = r.type
-        cell.thumbnailImageView.image = UIImage(named: r.image)
+        cell.thumbnailImageView.image = UIImage(data: r.image as! Data)
         //cell.thumbnailImageView.layer.cornerRadius = 30.0
         //cell.thumbnailImageView.clipsToBounds = true
         cell.accessoryType = r.isVisited ? .checkmark : .none
@@ -159,8 +161,8 @@ class RestaurantTableViewController: UITableViewController {
             (action, indexPath) -> Void in
             
             let r = self.restaurants[indexPath.row]
-            if let imageToShare = UIImage(named: r.image) {
-                let activityController = UIActivityViewController(activityItems: ["Just checking in at " + r.name, imageToShare], applicationActivities: nil)
+            if let imageToShare = UIImage(data: r.image as! Data) {
+                let activityController = UIActivityViewController(activityItems: ["Just checking in at " + r.name!, imageToShare], applicationActivities: nil)
                 self.present(activityController, animated: true, completion: nil)
             }
             
