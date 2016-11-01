@@ -674,12 +674,17 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <pageControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" translatesAutoresizingMaskIntoConstraints="NO" id="6t4-vG-TGq">
+                                <rect key="frame" x="168" y="610" width="39" height="37"/>
+                            </pageControl>
                         </subviews>
                         <color key="backgroundColor" red="0.75294117647058822" green="0.22352941176470587" blue="0.16862745098039217" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="3eL-h2-HrA" firstAttribute="top" secondItem="kZI-IA-HZ0" secondAttribute="bottom" constant="30" id="0I0-sO-R3y"/>
                             <constraint firstItem="3eL-h2-HrA" firstAttribute="leading" secondItem="ceT-Vp-Lfv" secondAttribute="leadingMargin" constant="22" id="3vN-Qt-JzI"/>
+                            <constraint firstItem="6t4-vG-TGq" firstAttribute="centerX" secondItem="jDt-Nw-WyQ" secondAttribute="centerX" id="DxQ-mu-CFp"/>
                             <constraint firstItem="jDt-Nw-WyQ" firstAttribute="top" secondItem="3eL-h2-HrA" secondAttribute="bottom" constant="39" id="Ezo-mJ-VLJ"/>
+                            <constraint firstAttribute="bottom" secondItem="6t4-vG-TGq" secondAttribute="bottom" constant="20" symbolic="YES" id="FCk-1I-qQU"/>
                             <constraint firstItem="3eL-h2-HrA" firstAttribute="top" secondItem="ceT-Vp-Lfv" secondAttribute="top" constant="100" id="FwG-c6-3vB"/>
                             <constraint firstItem="3eL-h2-HrA" firstAttribute="centerX" secondItem="kZI-IA-HZ0" secondAttribute="centerX" id="IhT-J2-Ukg"/>
                             <constraint firstItem="3eL-h2-HrA" firstAttribute="centerX" secondItem="ceT-Vp-Lfv" secondAttribute="centerX" id="LrC-cB-k8H"/>
@@ -690,6 +695,7 @@
                         <outlet property="contentImageView" destination="3eL-h2-HrA" id="Jde-Q2-pdY"/>
                         <outlet property="contentLabel" destination="jDt-Nw-WyQ" id="Ogj-Su-tBo"/>
                         <outlet property="headingLabel" destination="kZI-IA-HZ0" id="xpX-yC-Na3"/>
+                        <outlet property="pageCtrl" destination="6t4-vG-TGq" id="SFx-vx-DzS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAh-5e-4fn" userLabel="First Responder" sceneMemberID="firstResponder"/>

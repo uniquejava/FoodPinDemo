@@ -61,7 +61,7 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
         
         return nil
     }
-    
+    /*
     func presentationCount(for pageViewController: UIPageViewController) -> Int {
         print("presentationCount: \(pageHeadings.count)")
         return pageHeadings.count
@@ -78,5 +78,5 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
         print("no page found, return 0")
         return 0
     }
-
+    */
 }

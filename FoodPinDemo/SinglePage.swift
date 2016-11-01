@@ -13,6 +13,8 @@ class SinglePage: UIViewController {
     @IBOutlet weak var contentLabel: UILabel!
     @IBOutlet weak var contentImageView: UIImageView!
     
+    @IBOutlet weak var pageCtrl: UIPageControl!
+    
     var index = 0
     var heading = ""
     var imageFile = ""
@@ -24,6 +26,8 @@ class SinglePage: UIViewController {
         headingLabel.text = heading
         contentLabel.text = content
         contentImageView.image = UIImage(named: imageFile)
+        
+        pageCtrl.currentPage = index
     }
 
 }
