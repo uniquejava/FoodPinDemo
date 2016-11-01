@@ -23,6 +23,8 @@
 		2EB86CC91DC3BC9A001A323A /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 2EB86CC81DC3BC9A001A323A /* README.md */; };
 		2EB86CCB1DC3C116001A323A /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB86CCA1DC3C116001A323A /* Restaurant.swift */; };
 		2EB86CCD1DC3D02B001A323A /* RestaurantDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EB86CCC1DC3D02B001A323A /* RestaurantDetailTableViewCell.swift */; };
+		2EFCB2901DC8C2D60005CA3C /* SinglePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCB28F1DC8C2D60005CA3C /* SinglePage.swift */; };
+		2EFCB2921DC8C81F0005CA3C /* PageContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EFCB2911DC8C81F0005CA3C /* PageContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +46,8 @@
 		2EB86CC81DC3BC9A001A323A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		2EB86CCA1DC3C116001A323A /* Restaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		2EB86CCC1DC3D02B001A323A /* RestaurantDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantDetailTableViewCell.swift; sourceTree = "<group>"; };
+		2EFCB28F1DC8C2D60005CA3C /* SinglePage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePage.swift; sourceTree = "<group>"; };
+		2EFCB2911DC8C81F0005CA3C /* PageContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,8 @@
 				2E2F749B1DC5CF9C00B1729B /* ReviewViewController.swift */,
 				2E2F74A01DC6234500B1729B /* MapViewController.swift */,
 				2E2F74A21DC65E7E00B1729B /* AddRestaurantController.swift */,
+				2EFCB2911DC8C81F0005CA3C /* PageContainer.swift */,
+				2EFCB28F1DC8C2D60005CA3C /* SinglePage.swift */,
 				2EB86CC81DC3BC9A001A323A /* README.md */,
 				2E6F34861DC79C08002EE20D /* FoodPinDemo.xcdatamodeld */,
 				2E6F34891DC7A6B5002EE20D /* CD.swift */,
@@ -190,10 +196,12 @@
 				2EB86CC91DC3BC9A001A323A /* README.md in Sources */,
 				2E2F74A31DC65E7E00B1729B /* AddRestaurantController.swift in Sources */,
 				2E2F74A11DC6234500B1729B /* MapViewController.swift in Sources */,
+				2EFCB2921DC8C81F0005CA3C /* PageContainer.swift in Sources */,
 				2EB86CC71DC3AD42001A323A /* RestaurantDetailViewController.swift in Sources */,
 				2E67FF931DC34ED2002D3730 /* AppDelegate.swift in Sources */,
 				2E6F34881DC79C08002EE20D /* FoodPinDemo.xcdatamodeld in Sources */,
 				2E2F749C1DC5CF9C00B1729B /* ReviewViewController.swift in Sources */,
+				2EFCB2901DC8C2D60005CA3C /* SinglePage.swift in Sources */,
 				2E6F348A1DC7A6B5002EE20D /* CD.swift in Sources */,
 				2EB86CCD1DC3D02B001A323A /* RestaurantDetailTableViewCell.swift in Sources */,
 			);

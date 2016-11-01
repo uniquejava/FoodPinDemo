@@ -81,6 +81,12 @@ class RestaurantTableViewController: UITableViewController, UISearchResultsUpdat
         tableView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if let pageContainer = storyboard?.instantiateViewController(withIdentifier: "PageContainer") as? PageContainer {
+            present(pageContainer, animated: true, completion: nil)
+        }
+    }
+    
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text {
             print(text)
