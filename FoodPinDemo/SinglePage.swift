@@ -46,6 +46,7 @@ class SinglePage: UIViewController {
             let pageContainer = parent as! PageContainer
             pageContainer.forward(index: index)
         case 2:
+            UserDefaults.standard.set(true, forKey: "hasViewedWalkthrough")
             dismiss(animated: true, completion: nil)
         default:
             break

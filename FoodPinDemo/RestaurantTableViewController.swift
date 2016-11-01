@@ -82,6 +82,10 @@ class RestaurantTableViewController: UITableViewController, UISearchResultsUpdat
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        if UserDefaults.standard.bool(forKey: "hasViewedWalkthrough") {
+            return
+        }
+        
         if let pageContainer = storyboard?.instantiateViewController(withIdentifier: "PageContainer") as? PageContainer {
             present(pageContainer, animated: true, completion: nil)
         }
