@@ -52,9 +52,17 @@ class RestaurantTableViewController: UITableViewController, UISearchResultsUpdat
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
+
         searchController.dimsBackgroundDuringPresentation = false
-        tableView.tableHeaderView = searchController.searchBar
         
+        let searchBar = searchController.searchBar
+        searchBar.placeholder = "Search restaurants..."
+        searchBar.tintColor = UIColor.white
+        //searchBar.barTintColor = UIColor(red: 218.0/255, green: 100.0/255, blue: 70.0/255, alpha: 1.0)
+        searchBar.barTintColor = UIColor(white: 236.0/255, alpha: 1.0)
+        searchBar.searchBarStyle = .prominent //default value
+        
+        tableView.tableHeaderView = searchBar
         
         
         // remove the title of the back button(not for this scene, but for when this controller works as the source controller)
