@@ -270,7 +270,7 @@ class RestaurantTableViewController: UITableViewController, UISearchResultsUpdat
         if segue.identifier == "showRestaurantDetail" {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! RestaurantDetailViewController
-                
+                //controller.hidesBottomBarWhenPushed = true
                 controller.restaurant = searchController.isActive ? searchResults[indexPath.row] : restaurants[indexPath.row]
             }
 

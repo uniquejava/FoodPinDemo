@@ -105,12 +105,12 @@
         <!--Restaurant Detail View Controller-->
         <scene sceneID="O45-AQ-sI0">
             <objects>
-                <viewController id="Byc-SU-SBv" customClass="RestaurantDetailViewController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="Byc-SU-SBv" customClass="RestaurantDetailViewController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="hqh-11-lSe"/>
                         <viewControllerLayoutGuide type="bottom" id="ien-NK-IQH"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="ozN-Nv-JN4">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="ozN-Nv-JN4">
                         <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -339,7 +339,7 @@
         <!--Map View Controller-->
         <scene sceneID="WKT-Qy-TZe">
             <objects>
-                <viewController id="fuF-ol-fSg" customClass="MapViewController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController hidesBottomBarWhenPushed="YES" id="fuF-ol-fSg" customClass="MapViewController" customModule="FoodPinDemo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UwB-p5-tC8"/>
                         <viewControllerLayoutGuide type="bottom" id="N2Q-28-vHd"/>
@@ -348,7 +348,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sji-YG-uQo">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="sji-YG-uQo">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
                         </subviews>
@@ -721,6 +721,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="UhO-Jj-8nf" sceneMemberID="viewController">
                     <toolbarItems/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="kHs-nX-BQQ">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
