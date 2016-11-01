@@ -426,6 +426,66 @@ tableView.reloadData()
 ```
 待研究: http://stackoverflow.com/questions/37810967/how-to-apply-the-type-to-a-nsfetchrequest-instance
 
+### Search bar
+以为是拖的, 没想到是在viewDidLoad中加两行代码
+
+```swift
+searchController = UISearchController(searchResultsController: nil)
+tableView.tableHeaderView = searchController.searchBar
+```
+
+### 处理Search
+1) 按套路是用delegate实现,然而并没有使用UISearchControllerDelegate,用的是UISearchResultsUpdating, 在viewDidLoad中加入
+
+```swift
+searchController.searchResultsUpdater = self
+searchController.dimsBackgroundDuringPresentation = false
+```
+第二句是让search结果弹出时, 背景模糊(因为我们没有用单独的view来显示查询结果, 没有背景层, 在此设为false)
+
+2) 处理search的回调函数: UISearchResultsUpdating.updateSearchResults(for:)
+
+```swift
+func updateSearchResults(for searchController: UISearchController) {
+if let text = searchController.searchBar.text {
+searchResults = restaurants.filter { restaurant -> Bool in
+if let name = restaurant.name {
+let isMatch = name.localizedCaseInsensitiveContains(text)
+return isMatch
+}
+
+return false
+}
+tableView.reloadData()
+}
+}
+```
+
+3) 在先前用到restaurants的地方依情况选用searchResults, 包含numberOfRowsInSection, cellForRowAtIndexPath,  prepare(for:), 使用`searchController.isActive`判断当前是否处在search模式下.
+
+4) 在Search时禁用Delete/Share功能
+
+```swift
+override func tableView(_:canEditRowAt:) -> Bool {
+if searchController.isActive {
+return false
+}
+return true
+}
+```
+### 美化search bar
+viewDidLoad设置前景色(Cancel按钮), 背景色.
+
+```swift
+let searchBar = searchController.searchBar
+searchBar.placeholder = "Search restaurants..."
+searchBar.tintColor = UIColor.white
+searchBar.barTintColor = UIColor(red: 218.0/255, green: 100.0/255, blue: 70.0/255, alpha: 1.0)
+tableView.tableHeaderView = searchBar
+```
+
+发现search bar上面会出现很丑的边框, 参考了作者的代码,发现作者和书中写的不一样, 最终选的灰色`searchBar.barTintColor = UIColor(white: 236.0/255, alpha: 1.0)`, 去掉边框的解决办法[参考这里][search_bar_border](未试)
+
 ### Keywords
 
 1. 取选中行的行号: tableView.indexPathForSelectedRow
@@ -441,11 +501,16 @@ tableView.reloadData()
 11. mapView.addAnnotation(MKPointAnnotation)
 12. UIImagePickerController
 13. NSLayoutConstraint(..).isActive
+14. UIApplication.shared.delegate
+15. NSData(data: UIImagePNGRepresentation(image))
+16. UISearchResultsUpdating
+17. Array.localizedCaseInsensitiveContains
 
 ### Omitted
 1. Swipe to hide
 2. MapKit: show image on callout bubble
 3. NSFetchedResultsController
+4. P393 Search bar延伸阅读
 
 ### Xcode tricks
 
@@ -458,4 +523,5 @@ tableView.reloadData()
 
 [1]: http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7
 [SO]: http://stackoverflow.com/questions/27889645/performseguewithidentifier-has-no-segue-with-identifier
+[search_bar_border]: http://stackoverflow.com/questions/19899642/remove-border-of-uisearchbar-in-ios7
 
