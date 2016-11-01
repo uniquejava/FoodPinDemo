@@ -673,6 +673,38 @@ setViewControllers([nextPage], direction: .forward, animated: true, completion: 
 
 在列表页viewDidAppear中判断是否存过,存过直接返回: `if UserDefaults.standard.bool(forKey: "hasViewedWalkthrough") {return}`
 
+### Tab bar
+
+1. 把initial navigation controller直接embed in tab bar controller, 然后先前的initial nav controller的底部就会多出一个tab bar item, 点击它, 并设置System item: Favorites, 就这么简单!
+
+2. 在navigation controller内部非第1页的界面我们可以隐藏tab bar, 比如在detail view上要隐藏tab bar, 两种方式: 1)在IB中找到detail view勾选`Hide Bottom Bar on Push`; 2) 在列表页的prepare(for:)中加上`segue.destination.hidesBottomBarWhenPushed = true`
+
+
+吐槽一下Xcode8.1: 在embed in tab bar以后, 好几个view报missing constraints的错误, 但是constraint一点问题都没有并且运行也正常.
+
+### 创建新tab
+1. 拖一个navigation controller到storyboard(会自动带出一个table view controller)修改它的navigation item title为Discover
+2. 从Tab bar controller拖Ctrl Drag到新的nav controller选择`Relationship Segue: view controllers`
+3. 修改tab bar item的类型为Recents
+4. 如法炮制创建一个About tab.
+
+### 美化Tab Bar
+类似nav bar, 在didFinishLaunchingWithOptions中:
+
+```swift
+//前景色
+UITabBar.appearance().tintColor = UIColor(red: 235.0/255, green: 75.0/255, blue: 27.0/255, alpha: 1.0)
+//背景色
+UITabBar.appearance().barTintColor = UIColor(red: 236.0/255, green: 240.0/255, blue: 241.0/255, alpha: 1.0)
+//tab选中状态时的背景(默认无)
+//UITabBar.appearance().selectionIndicatorImage = #imageLiteral(resourceName: "tabitem-selected")
+```
+
+改变tab item的文字和图片: Bar item设置title和image即可(此时System Item会自动变回Custom)
+
+### 拆分Storyboard
+正式的名称叫Storyboard References(Xcode7的新特性), 比较简单, 直接圈住从tab bar controller出发的指向discover nav controller的segue 顺流而下 一直到 discover table view controller, 然后选择`Editor > Refactor to storyboard...` 取名为`discover.storyboard`, 如法炮制提取`about.storyboard`.
+
 ### Keywords
 
 1. 取选中行的行号: tableView.indexPathForSelectedRow
@@ -699,6 +731,8 @@ setViewControllers([nextPage], direction: .forward, animated: true, completion: 
 22. PageControl.currentPage = index
 23. SinglePage中`let pageContainer = parent as! PageContainer`
 24. UserDefaults.standard
+25. UITabBar.appearance().tintColor
+26. Refactor to storyboard...
 
 
 ### Omitted
