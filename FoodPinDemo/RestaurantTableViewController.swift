@@ -10,6 +10,7 @@ import UIKit
 import CoreData
 
 class RestaurantTableViewController: UITableViewController {
+    var searchController: UISearchController!
     var restaurants:[RestaurantMO] = []
         /*
         [
@@ -48,6 +49,8 @@ class RestaurantTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        searchController = UISearchController(searchResultsController: nil)
+        tableView.tableHeaderView = searchController.searchBar
         
         // remove the title of the back button(not for this scene, but for when this controller works as the source controller)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
