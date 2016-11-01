@@ -17,6 +17,8 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
                        "Find restaurants pinned by your friends and other foodies around the world"]
     
     override func viewDidLoad() {
+        print("viewDidLoad")
+        
         dataSource = self
         if let startingPage = page(at: 0) {
             setViewControllers([startingPage], direction: .forward, animated: true, completion: nil)
@@ -24,6 +26,8 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        print("viewControllerBefore")
+        
         var index = (viewController as! SinglePage).index
         index -= 1
         
@@ -32,6 +36,8 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter
         viewController: UIViewController) -> UIViewController? {
+        print("viewControllerAfter")
+        
         var index = (viewController as! SinglePage).index
         index += 1
         
@@ -44,7 +50,7 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
             return nil
         }
         
-        if let page = storyboard?.instantiateViewController(withIdentifier: "SinglePage")  as? SinglePage{
+        if let page = storyboard?.instantiateViewController(withIdentifier: "SinglePage")  as? SinglePage {
             page.imageFile = pageImages[index]
             page.heading = pageHeadings[index]
             page.content = pageContent[index]
@@ -54,6 +60,23 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
         }
         
         return nil
+    }
+    
+    func presentationCount(for pageViewController: UIPageViewController) -> Int {
+        print("presentationCount: \(pageHeadings.count)")
+        return pageHeadings.count
+    }
+    
+    func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+        print("presentationIndex")
+        
+        if let page = storyboard?.instantiateViewController(withIdentifier: "SinglePage")  as? SinglePage {
+            print("page index is: \(page.index)")
+            return page.index
+        }
+        
+        print("no page found, return 0")
+        return 0
     }
 
 }
