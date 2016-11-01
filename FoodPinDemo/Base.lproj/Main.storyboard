@@ -426,11 +426,11 @@
             </objects>
             <point key="canvasLocation" x="2161" y="-1286"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--About-->
         <scene sceneID="6Bh-72-Mwn">
             <objects>
                 <navigationController id="vNk-KA-omr" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="more" id="dUl-LR-xWh"/>
+                    <tabBarItem key="tabBarItem" title="About" image="about" id="dUl-LR-xWh"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GU1-RG-fQc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -443,11 +443,11 @@
             </objects>
             <point key="canvasLocation" x="1210" y="-1286"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Discover-->
         <scene sceneID="0QJ-fa-dhb">
             <objects>
                 <navigationController id="Xvw-ex-AzY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="recents" id="8iS-1f-M13"/>
+                    <tabBarItem key="tabBarItem" title="Discover" image="discover" id="8iS-1f-M13"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Y5w-Hg-QWj">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -460,11 +460,11 @@
             </objects>
             <point key="canvasLocation" x="1207" y="-611"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Favorites-->
         <scene sceneID="bMF-QQ-nch">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="gur-B2-Uyz" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" systemItem="favorites" id="xFK-vS-dBC"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="favorite" id="xFK-vS-dBC"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="lIL-Kc-Y1o">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -829,10 +829,13 @@
         </scene>
     </scenes>
     <resources>
+        <image name="about" width="23" height="22"/>
         <image name="barrafina" width="480" height="480"/>
         <image name="cafeloisl" width="480" height="480"/>
         <image name="check" width="28" height="28"/>
         <image name="cross" width="24" height="24"/>
+        <image name="discover" width="25" height="19"/>
+        <image name="favorite" width="17" height="25"/>
         <image name="photoalbum" width="64" height="64"/>
     </resources>
 </document>

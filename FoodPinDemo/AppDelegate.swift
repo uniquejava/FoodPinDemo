@@ -32,6 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // status bar text color
         UIApplication.shared.statusBarStyle = .lightContent
         
+        // tab bar
+        UITabBar.appearance().tintColor = UIColor(red: 235.0/255, green: 75.0/255, blue: 27.0/255, alpha: 1.0)
+        UITabBar.appearance().barTintColor = UIColor(red: 236.0/255, green: 240.0/255, blue: 241.0/255, alpha: 1.0)
+        //UITabBar.appearance().backgroundImage = ...
+        //UITabBar.appearance().selectionIndicatorImage = #imageLiteral(resourceName: "tabitem-selected")
+        
         return true
     }
 
