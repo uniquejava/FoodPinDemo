@@ -85,12 +85,14 @@ class RestaurantTableViewController: UITableViewController, UISearchResultsUpdat
         if let text = searchController.searchBar.text {
             print(text)
             searchResults = restaurants.filter { restaurant -> Bool in
-                if let name = restaurant.name {
-                    let isMatch = name.localizedCaseInsensitiveContains(text)
-                    return isMatch
+                guard let name = restaurant.name,
+                    let location = restaurant.location else {
+                        return false
                 }
                 
-                return false
+                let isMatch = name.localizedCaseInsensitiveContains(text) || location.localizedCaseInsensitiveContains(text)
+                return isMatch
+                
             }
             tableView.reloadData()
         }
