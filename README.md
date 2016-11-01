@@ -486,6 +486,187 @@ tableView.tableHeaderView = searchBar
 
 发现search bar上面会出现很丑的边框, 参考了作者的代码,发现作者和书中写的不一样, 最终选的灰色`searchBar.barTintColor = UIColor(white: 236.0/255, alpha: 1.0)`, 去掉边框的解决办法[参考这里][search_bar_border](未试)
 
+### PageViewController(幻灯片)
+PageViewController是一个Container(类似Nav Controller), 用来管理它所包含的Page Content View Controller, 因为这些子view很类似, 我们只用拖一个Page(View Controller),然后以编程的方式来绘制不同的page.
+
+1. 拖一个page view controller
+2. Transition style从`Page Curl`(翻书效果)改成`Scroll`
+3. Storyboard ID: PageContainer(在list view的viewDidAppear用这个ID动态创建)
+
+在list view的viewDidAppear中显示page container
+```swift
+override func viewDidAppear(_ animated: Bool) {
+if let pageContainer = storyboard?.instantiateViewController(withIdentifier: "PageContainer") as? PageContainer {
+present(pageContainer, animated: true, completion: nil)
+}
+}
+```
+
+1. 在page container的viewDidLoad中加载第一个page
+2. 使用UIPageViewController.setViewControllers指定显示哪个page, 实现DataSource接口中的两个方法viewControllerBefore, viewControllerAfter设定向前和向后翻页时显示哪个page.
+
+```swift
+class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
+
+var pageHeadings = ["Personalize", "Locate", "Discover"]
+var pageImages = ["foodpin-intro-1", "foodpin-intro-2", "foodpin-intro-3"]
+var pageContent = ["content1","2","3"]
+
+override func viewDidLoad() {
+dataSource = self
+if let startingPage = page(at: 0) {
+setViewControllers([startingPage], direction: .forward, animated: true, completion: nil)
+}
+}
+
+func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+var index = (viewController as! SinglePage).index
+index -= 1
+
+return page(at: index)
+}
+
+func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter
+viewController: UIViewController) -> UIViewController? {
+var index = (viewController as! SinglePage).index
+index += 1
+
+return page(at: index)
+
+}
+
+func page(at index: Int) -> SinglePage? {
+if index < 0 || index >= pageHeadings.count {
+return nil
+}
+
+if let page = storyboard?.instantiateViewController(withIdentifier: "SinglePage")  as? SinglePage{
+page.imageFile = pageImages[index]
+page.heading = pageHeadings[index]
+page.content = pageContent[index]
+page.index = index
+
+return page
+}
+
+return nil
+}
+
+}
+```
+
+
+### Single Page(View Controller)
+Single Page只是一个简单模版,在Page Container的page(at)方法中动态的创建并返回.
+
+1. drag a view controller, view bgcolor=#c0392b
+2. Label("Personalize")=top, hCenter
+3. Image View(300*232)=Aspect Ratio
+4. Label("Pin your ...",align=center, lines=0)=w282 h64
+5. Storyboard ID = SinglePage
+6. Set custom class, bind IBOutlets
+
+```swift
+class SinglePage: UIViewController {
+@IBOutlet weak var headingLabel: UILabel!
+@IBOutlet weak var contentLabel: UILabel!
+@IBOutlet weak var contentImageView: UIImageView!
+
+var index = 0
+var heading = ""
+var imageFile = ""
+var content = ""
+
+override func viewDidLoad() {
+super.viewDidLoad()
+
+headingLabel.text = heading
+contentLabel.text = content
+contentImageView.image = UIImage(named: imageFile)
+}
+
+}
+
+```
+
+### 幻灯片底部page indicator
+在Page Container中实现UIPageViewControllerDataSource中的两个接口即可.
+
+```swift
+func presentationCount(for pageViewController: UIPageViewController) -> Int {
+print("presentationCount: \(pageHeadings.count)")
+return pageHeadings.count
+}
+
+func presentationIndex(for pageViewController: UIPageViewController) -> Int {
+print("presentationIndex")
+
+if let page = storyboard?.instantiateViewController(withIdentifier: "SinglePage")  as? SinglePage {
+print("page index is: \(page.index)")
+return page.index
+}
+
+print("no page found, return 0")
+return 0
+}
+```
+还不太理解两个方法的调用时机, 实测presentationIndex永远都是返回0, 感觉很诡异, 这两个方法造中出来indicator样式太丑,无视.
+
+### 自定义的Page indicator
+1. 拖一个page control到single page底部
+2. 设置pages=3(默认值), add missing constraints, 设置outlet.
+3. 在single Page的viewDidLoad中`pageControl.currentPage = index` 
+4. That's all
+
+### 幻灯片上的NEXT/DONE按钮
+1. 拖个button到最右下角(bottom=7, right=0), 设置outlet
+2. 在single page的viewDidLoad中动态修改按钮的文本
+
+```swift
+switch index {
+case 0...1:
+forwardButton.setTitle("NEXT", for: .normal)
+case 2:
+forwardButton.setTitle("DONE", for: .normal)
+default:
+break
+}
+
+```
+
+3. 给NEXT按钮绑定点击事件
+
+```swift
+@IBAction func buttonTapped(_ sender: UIButton) {
+switch index {
+case 0...1:
+let pageContainer = parent as! PageContainer
+pageContainer.forward(index: index)
+case 2:
+dismiss(animated: true, completion: nil)
+default:
+break
+}
+
+}
+```
+4. PageContainer增加翻页的方法(forward)
+
+```swift
+func forward(index: Int) {
+if let nextPage = page(at: index + 1) {
+setViewControllers([nextPage], direction: .forward, animated: true, completion: nil)
+}
+}
+
+```
+
+### 仅展示一次幻灯片(UserDefaults)
+在DONE按钮的点击事件中,存个值到UserDefaults中:
+`UserDefaults.standard.set(true, forKey: "hasViewedWalkthrough")`
+
+在列表页viewDidAppear中判断是否存过,存过直接返回: `if UserDefaults.standard.bool(forKey: "hasViewedWalkthrough") {return}`
+
 ### Keywords
 
 1. 取选中行的行号: tableView.indexPathForSelectedRow
@@ -504,7 +685,15 @@ tableView.tableHeaderView = searchBar
 14. UIApplication.shared.delegate
 15. NSData(data: UIImagePNGRepresentation(image))
 16. UISearchResultsUpdating
-17. Array.localizedCaseInsensitiveContains
+17. String.localizedCaseInsensitiveContains
+18. viewDidAppear: present(storyboard?.instantiateViewController(withIdentifier: "PageContainer") as? PageContainer)
+19. PageContainer.setViewControllers([startingPage])
+20. UIPageViewControllerDataSource.viewControllerBefore
+21. storyboard?.instantiateViewController(withIdentifier: "SinglePage")  as? SinglePage
+22. PageControl.currentPage = index
+23. SinglePage中`let pageContainer = parent as! PageContainer`
+24. UserDefaults.standard
+
 
 ### Omitted
 1. Swipe to hide

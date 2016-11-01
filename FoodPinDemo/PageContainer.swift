@@ -56,6 +56,7 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
             page.content = pageContent[index]
             page.index = index
             
+            print("created page: \(index)")
             return page
         }
         
