@@ -79,4 +79,10 @@ class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
         return 0
     }
     */
+    
+    func forward(index: Int) {
+        if let nextPage = page(at: index + 1) {
+            setViewControllers([nextPage], direction: .forward, animated: true, completion: nil)
+        }
+    }
 }

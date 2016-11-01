@@ -14,6 +14,7 @@ class SinglePage: UIViewController {
     @IBOutlet weak var contentImageView: UIImageView!
     
     @IBOutlet weak var pageCtrl: UIPageControl!
+    @IBOutlet weak var forwardButton: UIButton!
     
     var index = 0
     var heading = ""
@@ -28,6 +29,27 @@ class SinglePage: UIViewController {
         contentImageView.image = UIImage(named: imageFile)
         
         pageCtrl.currentPage = index
+        
+        switch index {
+        case 0...1:
+            forwardButton.setTitle("NEXT", for: .normal)
+        case 2:
+            forwardButton.setTitle("DONE", for: .normal)
+        default:
+            break
+        }
     }
 
+    @IBAction func buttonTapped(_ sender: UIButton) {
+        switch index {
+        case 0...1:
+            let pageContainer = parent as! PageContainer
+            pageContainer.forward(index: index)
+        case 2:
+            dismiss(animated: true, completion: nil)
+        default:
+            break
+        }
+
+    }
 }
