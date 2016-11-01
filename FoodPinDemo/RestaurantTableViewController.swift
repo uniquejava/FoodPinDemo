@@ -9,9 +9,10 @@
 import UIKit
 import CoreData
 
-class RestaurantTableViewController: UITableViewController {
+class RestaurantTableViewController: UITableViewController, UISearchResultsUpdating {
     var searchController: UISearchController!
     var restaurants:[RestaurantMO] = []
+    var searchResults: [RestaurantMO] = []
         /*
         [
         Restaurant(name: "Cafe Deadend", type: "Coffee & Tea Shop", location: "G/F, 72 Po Hing Fong, Sheung Wan, Hong Kong", phone: "232-923423", image: "cafedeadend.jpg", isVisited: false),
@@ -50,7 +51,11 @@ class RestaurantTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
         tableView.tableHeaderView = searchController.searchBar
+        
+        
         
         // remove the title of the back button(not for this scene, but for when this controller works as the source controller)
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
@@ -67,6 +72,28 @@ class RestaurantTableViewController: UITableViewController {
         restaurants = try! CD.ctx.fetch(request)
         tableView.reloadData()
     }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text {
+            print(text)
+            searchResults = restaurants.filter { restaurant -> Bool in
+                if let name = restaurant.name {
+                    let isMatch = name.localizedCaseInsensitiveContains(text)
+                    return isMatch
+                }
+                
+                return false
+            }
+            tableView.reloadData()
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        if searchController.isActive {
+            return false
+        }
+        return true
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -82,7 +109,12 @@ class RestaurantTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return restaurants.count
+        if searchController.isActive {
+            return searchResults.count
+        } else {
+            return restaurants.count
+
+        }
     }
 
     
@@ -90,7 +122,7 @@ class RestaurantTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! RestaurantTableViewCell
 
         // Configure the cell...
-        let r = restaurants[indexPath.row]
+        let r = searchController.isActive ? searchResults[indexPath.row] : restaurants[indexPath.row]
         cell.nameLabel.text = r.name
         cell.locationLabel.text = r.location
         cell.typeLabel.text = r.type
@@ -219,7 +251,7 @@ class RestaurantTableViewController: UITableViewController {
             if let indexPath = tableView.indexPathForSelectedRow {
                 let controller = segue.destination as! RestaurantDetailViewController
                 
-                controller.restaurant = restaurants[indexPath.row]
+                controller.restaurant = searchController.isActive ? searchResults[indexPath.row] : restaurants[indexPath.row]
             }
 
         }
