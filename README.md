@@ -486,24 +486,29 @@ tableView.tableHeaderView = searchBar
 
 发现search bar上面会出现很丑的边框, 参考了作者的代码,发现作者和书中写的不一样, 最终选的灰色`searchBar.barTintColor = UIColor(white: 236.0/255, alpha: 1.0)`, 去掉边框的解决办法[参考这里][search_bar_border](未试)
 
-### PageViewController(幻灯片)
-PageViewController是一个Container(类似Nav Controller), 用来管理它所包含的Page Content View Controller, 因为这些子view很类似, 我们只用拖一个Page(View Controller),然后以编程的方式来绘制不同的page.
+### UIPageViewController(幻灯片)
+UIPageViewController(我喜欢叫它Page Container)是多个View的容器(类似Navigation Controller), 用来管理它所包含的多个子view, 但是由于子view的相似性, 我们只用拖一个View Controller做为模版(我叫它Single Page).
 
-1. 拖一个page view controller
-2. Transition style从`Page Curl`(翻书效果)改成`Scroll`
-3. Storyboard ID: PageContainer(在list view的viewDidAppear用这个ID动态创建)
+#### 创建Page Container
+1) 拖一个page view controller
 
-在list view的viewDidAppear中显示page container
+2) Transition style从`Page Curl(翻书效果)`改成`Scroll`
+
+3) Storyboard ID: PageContainer
+
+4) 在list view的viewDidAppear中显示page container
+
 ```swift
-override func viewDidAppear(_ animated: Bool) {
+func viewDidAppear() {
 if let pageContainer = storyboard?.instantiateViewController(withIdentifier: "PageContainer") as? PageContainer {
 present(pageContainer, animated: true, completion: nil)
 }
 }
 ```
 
-1. 在page container的viewDidLoad中加载第一个page
-2. 使用UIPageViewController.setViewControllers指定显示哪个page, 实现DataSource接口中的两个方法viewControllerBefore, viewControllerAfter设定向前和向后翻页时显示哪个page.
+5) 在page container的viewDidLoad中加载第一个page
+
+6) 使用UIPageViewController.setViewControllers指定显示哪个page, 实现DataSource接口中的两个方法viewControllerBefore, viewControllerAfter设定向前和向后翻页时显示哪个page.
 
 ```swift
 class PageContainer: UIPageViewController, UIPageViewControllerDataSource {
@@ -556,10 +561,10 @@ return nil
 ```
 
 
-### Single Page(View Controller)
-Single Page只是一个简单模版,在Page Container的page(at)方法中动态的创建并返回.
+#### 定义Single Page模版
+Single Page是一个简单的View Controller,在Page Container的page(at)方法中动态的创建设置各个属性值并做为viewControllerBefore的返回值.
 
-1. drag a view controller, view bgcolor=#c0392b
+1. Drag a view controller, view bgcolor=#c0392b
 2. Label("Personalize")=top, hCenter
 3. Image View(300*232)=Aspect Ratio
 4. Label("Pin your ...",align=center, lines=0)=w282 h64
@@ -619,8 +624,9 @@ return 0
 4. That's all
 
 ### 幻灯片上的NEXT/DONE按钮
-1. 拖个button到最右下角(bottom=7, right=0), 设置outlet
-2. 在single page的viewDidLoad中动态修改按钮的文本
+1) 拖个button到最右下角(bottom=7, right=0), 设置outlet
+
+2) 在single page的viewDidLoad中动态修改按钮的文本
 
 ```swift
 switch index {
@@ -631,10 +637,10 @@ forwardButton.setTitle("DONE", for: .normal)
 default:
 break
 }
-
 ```
 
-3. 给NEXT按钮绑定点击事件
+3) 给NEXT按钮绑定点击事件
+
 
 ```swift
 @IBAction func buttonTapped(_ sender: UIButton) {
@@ -647,10 +653,10 @@ dismiss(animated: true, completion: nil)
 default:
 break
 }
-
 }
-```
-4. PageContainer增加翻页的方法(forward)
+``` 
+
+4) PageContainer增加翻页的方法(forward)
 
 ```swift
 func forward(index: Int) {
@@ -658,8 +664,8 @@ if let nextPage = page(at: index + 1) {
 setViewControllers([nextPage], direction: .forward, animated: true, completion: nil)
 }
 }
-
 ```
+
 
 ### 仅展示一次幻灯片(UserDefaults)
 在DONE按钮的点击事件中,存个值到UserDefaults中:
