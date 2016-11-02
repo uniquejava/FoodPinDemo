@@ -705,6 +705,126 @@ UITabBar.appearance().barTintColor = UIColor(red: 236.0/255, green: 240.0/255, b
 ### 拆分Storyboard
 正式的名称叫Storyboard References(Xcode7的新特性), 比较简单, 直接圈住从tab bar controller出发的指向discover nav controller的segue 顺流而下 一直到 discover table view controller, 然后选择`Editor > Refactor to storyboard...` 取名为`discover.storyboard`, 如法炮制提取`about.storyboard`.
 
+### About page
+打开about.storyboard
+
+1. 拖image view到table view header(cell的上面), height=190, Content Mode=aspect fit, image=about-logo
+2. Cell的style设置为Basic
+3. 创建对应的AboutTableViewController(2 sections), 覆盖numberOfSections, numberOfRows, titleForHeaderInSection, cellForRowAt
+4. 隐藏table footer:`tableView.tableFooterView=UIView(frame: CGRect.zero)`
+
+```swift
+class AboutTableViewController: UITableViewController {
+var sectionTitles = ["",""]
+var sectionContent = [["",""],["","",""]]
+var links = ["","",""]
+
+override func viewDidLoad() {
+super.viewDidLoad()
+
+tableView.tableFooterView = UIView(frame: CGRect.zero)
+}
+```
+
+#### Open in Safari(Rate us)
+didSelectRowAt中处理第1个Row的点击事件(用safari打开某个link)
+
+```swift
+func tableView(didSelectRowAt) {
+switch (indexPath.section, indexPath.row) {
+case (0,0):
+if let url = URL(string: "http://www.apple.com/itunes/charts/paid-apps") {
+UIApplication.shared.open(url)
+}
+default:
+break
+}
+tableView.deselectRow(at: indexPath, animated: false)
+}
+```
+
+#### WKWebView(iOS8及以上比UIWebView性能更好)
+基本用法
+
+```swift
+let webView = WKWebVew()
+webView.load(URLRequest(url: URL(string:"http://blabla"))
+webView.load(URLRequest(url: URL(fileURLWithPath:"about.html")))
+
+```
+
+1. 拖一个新的view controller(空的, 之前以为要添加一个全屏的web view, 事实上什么也不用加)
+2. 从About screen view controller Ctrl drag到这个新的View Controller(segue: Show, id: showWebView)
+3. 设置对应的UIViewController类.
+
+
+```swift
+import WebKit
+
+class WebViewController: UIViewController {
+var webView: WKWebView!
+
+override func viewDidLoad() {
+super.viewDidLoad()
+
+if let url = URL(string: "http://www.appcoda.com/contact") {
+let request = URLRequest(url: url)
+webView.load(request)
+}
+}
+
+override func loadView() {
+webView = WKWebView()
+view = webView
+}
+
+}
+```
+其中loadView会在viewDidLoad之前被调用, 在这个方法中使用WKWebView替换掉View Controller自带的顶层view对象.
+
+最后在About的didSelectRowAt, 在第2行点击的时候打开这个ViewController:` performSegue(withIdentifier: "showWebView", sender: self)`
+
+从iOS9开始, Apple要求在后台只能打开HTTPS网站, 引入了` App Transport Security`(简称ATS), 在这里我们想打开http网站, 在Info.plist中禁用ATS: `ATS > Allow Arbitrary Loads = YES`
+
+#### SFSafariViewController
+内嵌Safari浏览器, 不用画任何界面, 直接present, 用法
+
+```swift
+import SafariServices
+
+let svc = SFSafariViewController(url: url/*, entersReaderIfAvailable: true*/)
+present(svc)
+```
+
+在About view controller的didSelectRowAt加上case(1,_)
+
+```swift
+func tableView(didSelectRowAt) {
+switch (indexPath.section, indexPath.row) {
+// open url
+case (0,0):
+if let url = URL(string: "http://www.apple.com/itunes/charts/paid-apps") {
+UIApplication.shared.open(url)
+}
+
+// WKWebView
+case (0,1):
+performSegue(withIdentifier: "showWebView", sender: self)
+
+// Embed safari browser
+case (1,_):
+if let url = URL(string: links[indexPath.row]) {
+let svc = SFSafariViewController(url: url)
+present(svc, animated: true, completion: nil)
+}
+default:
+break
+}
+tableView.deselectRow(at: indexPath, animated: false)
+}
+```
+
+
 ### Keywords
 
 1. 取选中行的行号: tableView.indexPathForSelectedRow
@@ -733,7 +853,9 @@ UITabBar.appearance().barTintColor = UIColor(red: 236.0/255, green: 240.0/255, b
 24. UserDefaults.standard
 25. UITabBar.appearance().tintColor
 26. Refactor to storyboard...
-
+27. UIApplication.shared.open(URL(string:))
+28. WKWebView().load(URLRequest(url: URL(fileURLWithPath:"about.html")))
+29. present(SFSafariViewController(url:))
 
 ### Omitted
 1. Swipe to hide
