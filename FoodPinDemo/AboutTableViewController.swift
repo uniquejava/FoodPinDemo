@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import SafariServices
 
 class AboutTableViewController: UITableViewController {
     var sectionTitles = ["Leave Feedback", "Follow Us"]
     var sectionContent = [["Rate us on App Store", "Tell us your feedback"],
-                          ["Twitter", "Facebook", "Pinterest"]]
-    var links = ["https://twitter.com/appcodamobile", "https://facebook.com/appcodamobile", "https://www.pinterest.com/appcoda/"]
+                          ["Bing", "Facebook", "Pinterest"]]
+    var links = ["http://cn.bing.com", "https://facebook.com/appcodamobile", "https://www.pinterest.com/appcoda/"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,11 @@ class AboutTableViewController: UITableViewController {
             }
         case (0,1):
             performSegue(withIdentifier: "showWebView", sender: self)
+        case (1,_):
+            if let url = URL(string: links[indexPath.row]) {
+                let svc = SFSafariViewController(url: url, entersReaderIfAvailable: true)
+                present(svc, animated: true, completion: nil)
+            }
         default:
             break
         }
