@@ -40,4 +40,16 @@ class AboutTableViewController: UITableViewController {
         cell.textLabel?.text = sectionContent[indexPath.section][indexPath.row]
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch (indexPath.section, indexPath.row) {
+        case (0,0):
+            if let url = URL(string: "http://www.apple.com/itunes/charts/paid-apps") {
+                UIApplication.shared.open(url)
+            }
+        default:
+            break
+        }
+        tableView.deselectRow(at: indexPath, animated: false)
+    }
 }
