@@ -1,18 +1,12 @@
 # FoodPinDemo
 My exercises while reading the appcoda book.
 
-![](polished-foodpin.png)
+![](foodpin.png)
 
 ## Some notes
+see commit history for details.
 
-### tags
-I will create git tag for some milestones
-
-1. `chapter12_pretty_coo`: list view with a very simple detail view.
-2. `plain_detail_view`: a usable detail view(table like)
-3. `polished-app`: a beautiful app.
-
-### basic
+### 基本操作1
 1. change cell style from basic to custom.
 2. change table view row height from default(44) to 80
 3. change cell row height to 80 (只要勾上custom会自动变成80)
@@ -23,12 +17,12 @@ I will create git tag for some milestones
 8. 设置最外层的stack view 和cell边距的上左下右分别为2, 6, 1.5, 0这时stackview会填充整个cell, 但是图片被横向拉伸了
 9. 在outline中ctrl水平拖动image view到自身, 设置width和height为60
 
-### basic 2
+### 基本操作2
 
 1. 在outline的tableviewCell上点右键可以看到这个cell中定义的所有outlet
 2. UIKit中所有View都自带CALayer, 这个layer对象可以控制view的背景色,边框, 透明度, 圆角
 
-### basic 3
+### 基本操作3
 1. 将image view在outline中拖动到cell之上
 2. aspect fill + clip to bounds
 3. cell中加两个Label: Field(Medium) + Value
