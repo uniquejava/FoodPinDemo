@@ -25,6 +25,26 @@ class DiscoverTableViewController: UITableViewController {
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Restaurant", predicate: predicate)
         
+        let queryOp = CKQueryOperation(query: query)
+        queryOp.desiredKeys = ["name", "image"]
+        queryOp.queuePriority = .high
+        queryOp.resultsLimit = 50
+        queryOp.recordFetchedBlock = { record -> Void in
+            self.restaurants.append(record)
+        }
+        queryOp.queryCompletionBlock = { cursor, error in
+            if let error = error {
+                print("failed to get data from iCould: \(error.localizedDescription)")
+                return
+            }
+            
+            print("Successfully retrieve data from iCould")
+            OperationQueue.main.addOperation {
+                self.tableView.reloadData()
+            }
+        }
+        publicDb.add(queryOp)
+        /*
         publicDb.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) -> Void in
             if error != nil {
@@ -39,7 +59,7 @@ class DiscoverTableViewController: UITableViewController {
                     self.tableView.reloadData()
                 }
             }
-        })
+        })*/
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return restaurants.count
