@@ -19,6 +19,13 @@ class DiscoverTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // ptr
+        refreshControl = UIRefreshControl()
+        refreshControl?.backgroundColor = UIColor.white
+        refreshControl?.tintColor = UIColor.gray
+        refreshControl?.addTarget(self, action: #selector(fetchRecordsFromCloud), for: UIControlEvents.valueChanged)
+        
+        
         spinner.hidesWhenStopped = true
         spinner.center = view.center
         tableView.addSubview(spinner)
@@ -28,6 +35,8 @@ class DiscoverTableViewController: UITableViewController {
     }
 
     func fetchRecordsFromCloud() {
+        self.restaurants.removeAll()
+        
         // Fetch data using Convenience API
         let cloudContainer = CKContainer.default()
         let publicDb = cloudContainer.publicCloudDatabase
@@ -51,6 +60,12 @@ class DiscoverTableViewController: UITableViewController {
             OperationQueue.main.addOperation {
                 self.spinner.stopAnimating()
                 self.tableView.reloadData()
+                if let refreshControl = self.refreshControl {
+                    if refreshControl.isRefreshing {
+                        refreshControl.endRefreshing()
+                    }
+                }
+
             }
         }
         publicDb.add(queryOp)
