@@ -10,10 +10,18 @@ import UIKit
 import CloudKit
 
 class DiscoverTableViewController: UITableViewController {
+    @IBOutlet var spinner: UIActivityIndicatorView!
+    
     var restaurants: [CKRecord] = []
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        spinner.hidesWhenStopped = true
+        spinner.center = view.center
+        tableView.addSubview(spinner)
+        spinner.startAnimating()
         
         fetchRecordsFromCloud()
     }
@@ -40,6 +48,7 @@ class DiscoverTableViewController: UITableViewController {
             
             print("Successfully retrieve data from iCould")
             OperationQueue.main.addOperation {
+                self.spinner.stopAnimating()
                 self.tableView.reloadData()
             }
         }
