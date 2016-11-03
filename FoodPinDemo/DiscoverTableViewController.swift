@@ -42,6 +42,7 @@ class DiscoverTableViewController: UITableViewController {
         let publicDb = cloudContainer.publicCloudDatabase
         let predicate = NSPredicate(value: true)
         let query = CKQuery(recordType: "Restaurant", predicate: predicate)
+        query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         let queryOp = CKQueryOperation(query: query)
         queryOp.desiredKeys = ["name"]
