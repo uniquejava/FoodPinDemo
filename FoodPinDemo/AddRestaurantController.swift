@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CloudKit
 
 class AddRestaurantController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -89,7 +90,10 @@ class AddRestaurantController: UITableViewController, UIImagePickerControllerDel
 
     
     @IBAction func saveRestaurant() {
-        if checkForm() {
+        let restaurant = saveToLocalOrFail()
+        if restaurant != nil {
+            saveRecordToCloud(restaurant: restaurant)
+            
             //dismiss(animated: true, completion: nil)
             
             // see here: http://stackoverflow.com/questions/27889645/performseguewithidentifier-has-no-segue-with-identifier
@@ -102,16 +106,49 @@ class AddRestaurantController: UITableViewController, UIImagePickerControllerDel
         }
     }
     
-    func checkForm() -> Bool {
+    func saveRecordToCloud(restaurant: RestaurantMO!) {
+        // prepare the record to save
+        let record =  CKRecord(recordType: "Restaurant")
+        record.setValue(restaurant.name, forKey: "name")
+        record.setValue(restaurant.type, forKey: "type")
+        record.setValue(restaurant.location, forKey: "location")
+        record.setValue(restaurant.phone, forKey: "phone")
+        
+        let imageData = restaurant.image as! Data
+        
+        // Resize the image
+        let originalImage = UIImage(data: imageData)!
+        let scalingFactor = (originalImage.size.width > 1024) ? 1024 / originalImage.size.width : 1.0
+        let scaledImage = UIImage(data: imageData, scale: scalingFactor)!
+        
+        // write image to local file for temporary use
+        let imageFilePath = NSTemporaryDirectory() + restaurant.name!
+        let imageFileURL = URL(fileURLWithPath: imageFilePath)
+        try? UIImageJPEGRepresentation(scaledImage, 0.8)?.write(to: imageFileURL)
+        
+        // create image asset for upload
+        let imageAsset = CKAsset(fileURL: imageFileURL)
+        record.setValue(imageAsset, forKey: "image")
+        
+        // get the public icloud database
+        let publicDb = CKContainer.default().publicCloudDatabase
+        publicDb.save(record, completionHandler: {
+            record, error in
+            // remove temp file
+            try? FileManager.default.removeItem(at: imageFileURL)
+        })
+    }
+    
+    func saveToLocalOrFail() -> RestaurantMO? {
         guard let name = nameTextField.text, !name.isEmpty else {
-            return false
+            return nil
         }
         guard let type = typeTextField.text, !type.isEmpty else {
-            return false
+            return nil
         }
         
         guard let location = locationTextField.text, !location.isEmpty else {
-            return false
+            return nil
         }
         
         
@@ -125,8 +162,7 @@ class AddRestaurantController: UITableViewController, UIImagePickerControllerDel
         CD.save(restaurant)
         
         
-        
-        return true
+        return restaurant
     }
     
     
