@@ -819,15 +819,15 @@ tableView.deselectRow(at: indexPath, animated: false)
 ```
 
 ### CloudKit
-CloudKit需要开发者账号才能玩(谁能借我玩玩), 我只是读了这一章, 纸上谈兵...
+CloudKit需要开发者账号才能玩, $99 啊啊, 大出血.
 
 在CloudKit中一个App对应一个Container, container中包含public, private, shared三种类型的DB, (shared是iOS10新增的类型), 所有安装了FoodPinDemo的用户都能访问public db(如果是写需要登录一次iCould), private只有用户自己能访问, shared只有group内的用户能访问(相当于QQ群), Db下分为Default Zone和Custom Zone, Zone下面是Record(一条条记录)
 
 基本使用:
 
-`服务端:` 登录到apple dev center打开CloudKit Dashboard 新建叫Restaurant的Record Type, 定义字段, 插入若干测试数据, 就能玩了..(CK中所有图片, 文件的类型都叫Asset)
+`Mobile端:` 在Capabilities中将CloudKit打开, services从Key-value storage改成CloudKit, Containers选择默认的Use default container (然后Xcode会自动到iCould上创建相应的container, 若有失败,可能是Bundle ID重复, 尝试换个Bundle ID)
 
-`Mobile端:` 在Capabilities中将CloudKit打开, services从Key-value storage改成CloudKit, Containers选择默认的Use default container, 然后可以使用傻瓜版的叫convenience API或高级版的叫operational API来抓或存数据. Convenience API没什么卵用, 即不能指定`select`也不能指定`where`.
+`服务端:` 用**Safari浏览器**登录到apple dev center打开CloudKit Dashboard 在对应的Container中新建叫Restaurant的Record Type, 定义字段String(name,type,location,phone), Asset(image), 最后在Public Data - Default Zone中插入若干测试数据, 就能玩了..(CK中所有图片, 文件的类型都叫Asset), 然后可以使用傻瓜版的叫convenience API或高级版的叫operational API来抓或存数据. Convenience API没什么卵用, 即不能指定`select`也不能指定`where`.
 
 #### 使用convenience API从iCould取数据
 `var restaurants:[CKRecord] = []`并且在viewDidLoad中封装如下fetchRecordsFromCloud()
@@ -1017,8 +1017,6 @@ UIControlEvents.valueChanged)
 ```swift
 OperationQueue.main.addOperation {
 self.spinner.stopAnimating()
-// Remove existing records before refreshing
-self.restaurants.removeAll()
 self.tableView.reloadData()
 if let refreshControl = self.refreshControl {
 if refreshControl.isRefreshing {
@@ -1026,6 +1024,15 @@ refreshControl.endRefreshing()
 }
 }
 }
+```
+
+在开始刷新数据前先清空旧数据.
+
+```swift
+func fetchRecordsFromCloud() {
+// fix ptr bug
+restaurants.removeAll()
+tableView.reloadData()
 ```
 
 ### 向iCloud写数据
