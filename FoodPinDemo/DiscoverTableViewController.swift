@@ -38,6 +38,9 @@ class DiscoverTableViewController: UITableViewController {
     }
 
     func fetchRecordsFromCloud() {
+        // fix ptr bug
+        restaurants.removeAll()
+        tableView.reloadData()
         
         // Fetch data using Convenience API
         let cloudContainer = CKContainer.default()
