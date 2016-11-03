@@ -818,6 +818,252 @@ tableView.deselectRow(at: indexPath, animated: false)
 }
 ```
 
+### CloudKit
+CloudKit需要开发者账号才能玩(谁能借我玩玩), 我只是读了这一章, 纸上谈兵...
+
+在CloudKit中一个App对应一个Container, container中包含public, private, shared三种类型的DB, (shared是iOS10新增的类型), 所有安装了FoodPinDemo的用户都能访问public db(如果是写需要登录一次iCould), private只有用户自己能访问, shared只有group内的用户能访问(相当于QQ群), Db下分为Default Zone和Custom Zone, Zone下面是Record(一条条记录)
+
+基本使用:
+
+`服务端:` 登录到apple dev center打开CloudKit Dashboard 新建叫Restaurant的Record Type, 定义字段, 插入若干测试数据, 就能玩了..(CK中所有图片, 文件的类型都叫Asset)
+
+`Mobile端:` 在Capabilities中将CloudKit打开, services从Key-value storage改成CloudKit, Containers选择默认的Use default container, 然后可以使用傻瓜版的叫convenience API或高级版的叫operational API来抓或存数据. Convenience API没什么卵用, 即不能指定`select`也不能指定`where`.
+
+#### 使用convenience API从iCould取数据
+`var restaurants:[CKRecord] = []`并且在viewDidLoad中封装如下fetchRecordsFromCloud()
+
+```swift
+// Fetch data using Convenience API
+let cloudContainer = CKContainer.default()
+let publicDatabase = cloudContainer.publicCloudDatabase
+let predicate = NSPredicate(value: true)
+let query = CKQuery(recordType: "Restaurant", predicate: predicate)
+publicDatabase.perform(query, inZoneWith: nil, completionHandler: {
+(results, error) -> Void in
+if error != nil {return}
+if let results = results {
+print("Completed the download of Restaurant data")
+self.restaurants = results
+self.tableView.reloadData()
+} 
+})
+```
+
+修改cellForRow
+
+```swift
+override func tableView(cellForRowAt) {
+let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for:
+indexPath)
+// Configure the cell...
+let restaurant = restaurants[indexPath.row]
+cell.textLabel?.text = restaurant.object(forKey: "name") as? String
+if let image = restaurant.object(forKey: "image") {
+let imageAsset = image as! CKAsset
+if let imageData = try? Data.init(contentsOf: imageAsset.fileURL) {
+cell.imageView?.image = UIImage(data: imageData)
+} 
+}
+return cell
+```
+
+CKRecord是key-value pair,. image是CKAsset类型. fileURL是CloudKit下载资源时的临时存储位置.publicDatabase.perform在抓数据是会新开一个后台线程, 在下载完成后reloadData()应该放在UI Thread中来完成, 因为OS会给bg thread很低的处理优先级, 即使数据下完了, tableView.reloadData()也不会立即执行, 解决办法见[swift3 concurrency][iOSConcurrency]: 
+
+```swift
+OperationQueue.main.addOperation {
+self.tableView.reloadData()
+}
+```
+
+#### 使用operational API
+fetchRecordsFromCloud
+
+```swift
+let cloudContainer = CKContainer.default()
+let publicDatabase = cloudContainer.publicCloudDatabase
+// predicate指定空的where语句
+let predicate = NSPredicate(value: true)
+let query = CKQuery(recordType: "Restaurant", predicate: predicate)
+// sortDescriptors按创建时间倒序排
+query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending:
+false)]
+// Create the query operation with the query
+let queryOperation = CKQueryOperation(query: query)
+queryOperation.desiredKeys = ["name", "image"]
+queryOperation.queuePriority = .veryHigh
+queryOperation.resultsLimit = 50
+queryOperation.recordFetchedBlock = { (record) -> Void in
+self.restaurants.append(record)
+}
+queryOperation.queryCompletionBlock = { (cursor, error) -> Void in
+if let error = error {
+print("Failed to get data from iCloud - \
+(error.localizedDescription)")
+return
+}
+print("Successfully retrieve the data from iCloud")
+OperationQueue.main.addOperation {
+self.tableView.reloadData()
+}
+}
+// Execute the query
+publicDatabase.add(queryOperation)
+```
+desiredKeys指定select, resultsLimit指定limit, recordFetchedBlock是单条记录下载完成后的回调, queryCompletionBlock是所有记录下载完成后的回调.CKQueryCursor标记当前已经下载记录的位置(下次抓取时的起始位置), 可在分批下载数据时使用.
+
+### 性能优化
+分为real performance和perceived performance.
+
+#### 1. 压缩图片大小
+tinypng.com
+
+#### 2. 使用`转圈圈`动画UIActivityIndicatorView
+
+1) drag an Activity Indicator View object to the scene dock of the table view controller, 然后指定@IBOutlet
+
+2) 这样和直接拖到view controller上没什么区别, 把它扔到边边上然后在viewDidLoad中指定它的实际位置就行.
+
+```swift
+@IBOutlet var spinner: UIActivityIndicatorView!
+// viewDidLoad
+spinner.hidesWhenStopped = true
+spinner.center = view.center
+tableView.addSubview(spinner)
+spinner.startAnimating()
+```
+
+3) 在下载结束的回调函数中隐藏
+
+```swift
+OperationQueue.main.addOperation {
+self.spinner.stopAnimating()
+self.tableView.reloadData()
+}
+```
+
+#### 3. 延迟下载图片
+1. 查的时候只查name, 将`queryOperation.desiredKeys = ["name", "image"]`改成`queryOperation.desiredKeys = ["name"]`, 并给cell一个默认的图片, 这样可以实现秒加载
+2. 在显示数据(cellForRowAt)的时候再去逐个下载图片
+
+```swift
+// Configure the cell...
+let restaurant = restaurants[indexPath.row]
+cell.textLabel?.text = restaurant.object(forKey: "name") as? String
+// Set the default image
+cell.imageView?.image = UIImage(named: "photoalbum")
+// Fetch Image from Cloud in background
+let publicDatabase = CKContainer.default().publicCloudDatabase
+let fetchRecordsImageOperation = CKFetchRecordsOperation(recordIDs:
+[restaurant.recordID])
+fetchRecordsImageOperation.desiredKeys = ["image"]
+fetchRecordsImageOperation.queuePriority = .veryHigh
+fetchRecordsImageOperation.perRecordCompletionBlock = { (record, recordID,
+error) -> Void in
+if let error = error {
+print("Failed to get restaurant image: \
+(error.localizedDescription)")
+return
+}
+
+if let restaurantRecord = record {
+OperationQueue.main.addOperation() {
+if let image = restaurantRecord.object(forKey: "image") {
+let imageAsset = image as! CKAsset
+if let imageData = try? Data.init(contentsOf:
+imageAsset.fileURL) {
+cell.imageView?.image = UIImage(data: imageData)
+...
+
+
+publicDatabase.add(fetchRecordsImageOperation)
+return cell 
+}
+```
+CKRecord中会自动包含recordID,用它来指定去下载哪条记录的image字段
+
+#### 4. 缓存图片NSCache
+在滑动表格的时候, cellForRowAt会不断被调用, 先前下载的图片每次都要重新下载, 使用NSCache来解决.
+
+```swift
+var imageCache = NSCache<CKRecordID, NSURL>()
+```
+
+因为图片下载后会被CloudKit缓存到fileURL指定的位置, 我们只要在NSCache中存这个文件的位置就行.
+
+```swift
+if let image = restaurantRecord.object(forKey: "image") {
+let imageAsset = image as! CKAsset
+if let imageData = try? Data.init(contentsOf:imageAsset.fileURL) {
+cell.imageView?.image = UIImage(data: imageData)
+// Add the image URL to cache
+self.imageCache.setObject(imageAsset.fileURL as NSURL,forKey: restaurant.recordID)
+```
+
+### 下拉刷新Pull to refresh
+超级简单, 所有的tableViewController自带refreshControl属性,只要给它指定一个值即可.(viewDidLoad)
+
+```swift
+// Pull To Refresh Control
+refreshControl = UIRefreshControl()
+refreshControl?.backgroundColor = UIColor.white
+refreshControl?.tintColor = UIColor.gray
+refreshControl?.addTarget(self, action: #selector(fetchRecordsFromCloud), for:
+UIControlEvents.valueChanged)
+```
+当下拉到一定程度的时候, ptr组件会触发UIControlEvent.valueChanged事件, 我们在上面的代码中监听这个事件, 指定回调函数就行(#selector是Xcode7.3/Swift2.2新增特性)
+
+需要在刷新结束后隐藏ptr组件.
+
+```swift
+OperationQueue.main.addOperation {
+self.spinner.stopAnimating()
+// Remove existing records before refreshing
+self.restaurants.removeAll()
+self.tableView.reloadData()
+if let refreshControl = self.refreshControl {
+if refreshControl.isRefreshing {
+refreshControl.endRefreshing()
+}
+}
+}
+```
+
+### 向iCloud写数据
+在添加界面除了用CoreData向本地写数据外, 同时往iCloud上的public db上写一份(共享给他人)
+saveRecordToCloud(restaurant), 放在dismiss(animated:completion:)之前
+
+```swift
+import CloudKit 
+
+func saveRecordToCloud(restaurant:RestaurantMO!) -> Void {
+// Prepare the record to save
+let record = CKRecord(recordType: "Restaurant")
+record.setValue(restaurant.name, forKey: "name")
+record.setValue(restaurant.type, forKey: "type")
+record.setValue(restaurant.location, forKey: "location")
+record.setValue(restaurant.phone, forKey: "phone")
+let imageData = restaurant.image as! Data
+// Resize the image
+let originalImage = UIImage(data: imageData)!
+let scalingFactor = (originalImage.size.width > 1024) ? 1024 /
+originalImage.size.width : 1.0
+let scaledImage = UIImage(data: imageData, scale: scalingFactor)!
+// Write the image to local file for temporary use
+let imageFilePath = NSTemporaryDirectory() + restaurant.name!
+let imageFileURL = URL(fileURLWithPath: imageFilePath)
+try? UIImageJPEGRepresentation(scaledImage, 0.8)?.write(to: imageFileURL)
+// Create image asset for upload
+let imageAsset = CKAsset(fileURL: imageFileURL)
+record.setValue(imageAsset, forKey: "image")
+// Get the Public iCloud Database
+let publicDatabase = CKContainer.default().publicCloudDatabase
+// Save the record to iCloud
+publicDatabase.save(record, completionHandler: { (record, error) -> Void in
+// Remove temp file
+try? FileManager.default.removeItem(at: imageFileURL)
+})
+```
+对图片的处理稍显复杂: 先用UIImage对宽度超过1024的图片进行resize, 再用UIImageJPEGRepresentation将图片压缩并写入到临时文件夹NSTemporaryDirectory(), 然后再根据图片的地址构建CKAsset, 在save的回调函数中删除临时文件
 
 ### Keywords
 
@@ -869,4 +1115,6 @@ tableView.deselectRow(at: indexPath, animated: false)
 [1]: http://stackoverflow.com/questions/19108513/uistatusbarstyle-preferredstatusbarstyle-does-not-work-on-ios-7
 [SO]: http://stackoverflow.com/questions/27889645/performseguewithidentifier-has-no-segue-with-identifier
 [search_bar_border]: http://stackoverflow.com/questions/19899642/remove-border-of-uisearchbar-in-ios7
+[iosConcurrency]: https://github.com/uniquejava/iOSConcurrencyDemo
+
 
