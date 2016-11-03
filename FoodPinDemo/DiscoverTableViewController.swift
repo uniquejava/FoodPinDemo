@@ -34,7 +34,7 @@ class DiscoverTableViewController: UITableViewController {
         let query = CKQuery(recordType: "Restaurant", predicate: predicate)
         
         let queryOp = CKQueryOperation(query: query)
-        queryOp.desiredKeys = ["name", "image"]
+        queryOp.desiredKeys = ["name"]
         queryOp.queuePriority = .high
         queryOp.resultsLimit = 50
         queryOp.recordFetchedBlock = { record -> Void in
@@ -78,14 +78,38 @@ class DiscoverTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let r = restaurants[indexPath.row]
         cell.textLabel?.text = r.object(forKey: "name") as? String
+        cell.imageView?.image = #imageLiteral(resourceName: "photoalbum")
         
-        if let image = r.object(forKey: "image") {
+        let publicDb = CKContainer.default().publicCloudDatabase
+        let fetchOp = CKFetchRecordsOperation(recordIDs: [r.recordID])
+        fetchOp.desiredKeys = ["image"]
+        fetchOp.queuePriority = .veryHigh
+        fetchOp.perRecordCompletionBlock = {record, recordID, error in
+            if let error = error {
+                print("failed to get image from iCould: \(error.localizedDescription)")
+                return
+            }
+            
+            if let rRecord = record {
+                OperationQueue.main.addOperation {
+                    self.fillCell4Image(cell, with: rRecord)
+                }
+            }
+
+        }
+        publicDb.add(fetchOp)
+        
+        // fillCell(cell, with: r)
+        
+        return cell
+    }
+    
+    func fillCell4Image(_ cell: UITableViewCell, with record: CKRecord) {
+        if let image = record.object(forKey: "image") {
             let imageAsset = image as! CKAsset
             if let imageData = try? Data.init(contentsOf: imageAsset.fileURL) {
                 cell.imageView?.image = UIImage(data: imageData)
             }
         }
-        
-        return cell
     }
 }
