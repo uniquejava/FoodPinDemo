@@ -19,6 +19,9 @@ class DiscoverTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        //set separator color
+        tableView.separatorColor = UIColor.white
+        
         // ptr
         refreshControl = UIRefreshControl()
         refreshControl?.backgroundColor = UIColor.white
@@ -35,7 +38,6 @@ class DiscoverTableViewController: UITableViewController {
     }
 
     func fetchRecordsFromCloud() {
-        self.restaurants.removeAll()
         
         // Fetch data using Convenience API
         let cloudContainer = CKContainer.default()
@@ -45,7 +47,7 @@ class DiscoverTableViewController: UITableViewController {
         query.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         
         let queryOp = CKQueryOperation(query: query)
-        queryOp.desiredKeys = ["name"]
+        queryOp.desiredKeys = ["name", "type", "location"]
         queryOp.queuePriority = .high
         queryOp.resultsLimit = 50
         queryOp.recordFetchedBlock = { record -> Void in
@@ -92,17 +94,20 @@ class DiscoverTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! DiscoverCell
+        
         let r = restaurants[indexPath.row]
-        cell.textLabel?.text = r.object(forKey: "name") as? String
-        cell.imageView?.image = #imageLiteral(resourceName: "photoalbum")
+        cell.nameLabel.text = r.object(forKey: "name") as? String
+        cell.typeLabel.text = r.object(forKey: "type") as? String
+        cell.locationLabel.text = r.object(forKey: "location") as? String
+        cell.thumbnailImage.image = #imageLiteral(resourceName: "photoalbum")
         
         // check if image stored in cache
         if let imageFileURL = imageCache.object(forKey: r.recordID) {
             // fetch image from cache
             print("get image from cache")
             if let imageData = try? Data.init(contentsOf: imageFileURL as URL) {
-                cell.imageView?.image = UIImage(data: imageData)
+                cell.thumbnailImage.image = UIImage(data: imageData)
             }
         } else {
             // fetch image from cloud in background
@@ -122,7 +127,7 @@ class DiscoverTableViewController: UITableViewController {
                         if let image = rRecord.object(forKey: "image") {
                             let imageAsset = image as! CKAsset
                             if let imageData = try? Data.init(contentsOf: imageAsset.fileURL) {
-                                cell.imageView?.image = UIImage(data: imageData)
+                                cell.thumbnailImage.image = UIImage(data: imageData)
                             }
                             // add the image URL to cache
                             self.imageCache.setObject(imageAsset.fileURL as NSURL, forKey: r.recordID)
@@ -140,11 +145,11 @@ class DiscoverTableViewController: UITableViewController {
         return cell
     }
     
-    func fillCell4Image(_ cell: UITableViewCell, with record: CKRecord) {
+    func fillCell4Image(_ cell: DiscoverCell, with record: CKRecord) {
         if let image = record.object(forKey: "image") {
             let imageAsset = image as! CKAsset
             if let imageData = try? Data.init(contentsOf: imageAsset.fileURL) {
-                cell.imageView?.image = UIImage(data: imageData)
+                cell.thumbnailImage.image = UIImage(data: imageData)
             }
         }
     }
